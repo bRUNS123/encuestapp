@@ -10,6 +10,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     friends_count = serializers.SerializerMethodField()
 
     photo_url = serializers.SerializerMethodField()
+    is_staff = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Profile
