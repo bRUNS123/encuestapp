@@ -49,10 +49,7 @@ const router = useRouter();
 const route = useRoute();
 
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
-const user = computed(() => store.getters.user);
-const isAdmin = computed(() => {
-    return user.value && user.value.is_staff;
-});
+const isAdmin = computed(() => store.state.user?.is_staff === true);
 const selectedMenuItem = ref(null);
 
 
