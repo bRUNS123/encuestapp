@@ -57,8 +57,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         is_requester_authenticated = request and request.user and request.user.is_authenticated
 
         for public_flag, field_name in privacy_fields:
-            # Visible if: (Requester is Authenticated AND Field is Public)
-            if not (is_requester_authenticated and getattr(instance, public_flag)):
+            # Visible if: (Requester is Authenticated AND Field is Public) OR (Requester is Staff)
+            is_staff = request and request.user.is_staff
+            if not (is_staff or (is_requester_authenticated and getattr(instance, public_flag))):
                  ret[field_name] = None
 
             

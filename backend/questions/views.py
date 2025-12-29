@@ -24,6 +24,18 @@ class QuestionViewSet(viewsets.ModelViewSet):
     ordering_fields = ['creation_date', 'cantidad_votos', 'rating_average']
     filterset_fields = [] # Handled manually in get_queryset
     ordering = ['-creation_date']
+    
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            from core.permissions import IsOwnerOrAdmin
+            return [IsAuthenticatedOrReadOnly(), IsOwnerOrAdmin()]
+        return [IsAuthenticatedOrReadOnly()]
+
+    def perform_create(self, serializer):
+        if self.request.user.is_authenticated:
+            serializer.save(owner=self.request.user)
+        else:
+            serializer.save()
 
     def get_queryset(self):
         # print(f"DEBUG: User: {self.request.user}, Is Auth: {self.request.user.is_authenticated}")

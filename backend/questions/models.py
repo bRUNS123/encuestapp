@@ -19,6 +19,7 @@ class Question(models.Model):
     cantidad_votos = models.IntegerField(default=0)
     rating_average = models.FloatField(default=0.0)
     rating_count = models.IntegerField(default=0)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_questions', null=True, blank=True)
     
     class Meta:
         ordering = ['-creation_date']

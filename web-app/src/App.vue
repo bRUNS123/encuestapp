@@ -10,7 +10,7 @@ import Footer from './components/layout/Footer.vue';
 const route = useRoute();
 
 const fullWidthContent = []; /* Sidebars enabled everywhere per user request */
-const isLoginRoute = computed(() => fullWidthContent.includes(route.path));
+const isLoginRoute = computed(() => route.meta.fullWidth || fullWidthContent.includes(route.path));
 
 </script>
 

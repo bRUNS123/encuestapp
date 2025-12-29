@@ -12,11 +12,27 @@ import BestRatedView from "@/views/BestRatedView.vue";
 import ForgotPasswordView from "@/views/ForgotPasswordView.vue";
 import PublicProfileView from "@/views/PublicProfileView.vue";
 
+import AdminLayout from '@/views/admin/AdminLayout.vue';
+import AdminDashboard from '@/views/admin/AdminDashboard.vue';
+import AdminUsers from '@/views/admin/AdminUsers.vue';
+import AdminQuestions from '@/views/admin/AdminQuestions.vue';
+import store from '@/store';
+
 const routes = [
   {
     path: "/",
     name: "mostvoted",
     component: MostVotedView,
+  },
+  {
+    path: '/admin',
+    component: AdminLayout,
+    meta: { requiresAdmin: true, fullWidth: true },
+    children: [
+      { path: '', name: 'AdminDashboard', component: AdminDashboard },
+      { path: 'users', name: 'AdminUsers', component: AdminUsers },
+      { path: 'questions', name: 'AdminQuestions', component: AdminQuestions },
+    ]
   },
   {
     path: "/profile/:id",
@@ -95,6 +111,27 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAdmin)) {
+    let user = store.state.user;
+    if (!user) {
+      // Try to restore session if token exists
+      if (localStorage.getItem('access_token')) {
+        await store.dispatch('checkAuthentication');
+        user = store.state.user;
+      }
+    }
+
+    if (user && user.is_staff) {
+      next();
+    } else {
+      next('/');
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

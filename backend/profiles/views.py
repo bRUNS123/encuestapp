@@ -93,9 +93,27 @@ class ProfileViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ['register', 'login', 'list']:
             self.permission_classes = [AllowAny]
+        elif self.action in ['update', 'partial_update', 'destroy']:
+            from core.permissions import IsOwnerOrAdmin
+            self.permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
         else:
             self.permission_classes = [IsAuthenticated]
         return super().get_permissions()
+
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated], url_path='toggle-active')
+    def toggle_active(self, request, pk=None):
+        if not request.user.is_staff:
+            return Response({"error": "Only admins can perform this action"}, status=status.HTTP_403_FORBIDDEN)
+        
+        user = self.get_object()
+        # Prevent deactivating yourself if you are the only admin (optional safety, but good practice)
+        if user == request.user:
+             return Response({"error": "Cannot deactivate yourself"}, status=status.HTTP_400_BAD_REQUEST)
+             
+        user.is_active = not user.is_active
+        user.save()
+        status_msg = "activated" if user.is_active else "deactivated"
+        return Response({"status": "success", "message": f"User {status_msg}", "is_active": user.is_active})
 
     @action(detail=False, methods=['post'], url_path='register')
     def register(self, request):
