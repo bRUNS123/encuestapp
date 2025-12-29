@@ -1,0 +1,858 @@
+<template>
+  <div class="grid-container">
+    <div class="icono-container">
+      <router-link :to="calcularURL(categoria)">
+        <div class="icono-wrapper">
+          <i :class="calcularIcono(categoria)"></i>
+          <span class="categoria-nombre">{{ categoria ? categoria.toUpperCase() : '' }}</span>
+        </div>
+      </router-link>
+      <div class="fecha">
+        <i v-if="allowPrivacy && !readOnly" 
+           :class="isVotePublic ? 'fas fa-eye' : 'fas fa-eye-slash'" 
+           class="privacy-icon"
+           :title="isVotePublic ? 'Público' : 'Privado'"
+           @click.stop="toggleVisibility">
+        </i>
+        {{ formatFecha(fecha) }}
+        <i v-if="canEditVote && !readOnly" class="fas fa-pencil-alt edit-icon" @click.stop="enableVoteEditing" title="Cambiar voto"></i>
+      </div>
+    </div>
+    
+    <div class="pregunta">{{ preguntaText }}</div>
+    
+    <!-- TIPO: BINARY (Si/No o 2 opciones) -->
+    <div v-if="questionType === 'binary'" class="respuestas">
+      <div v-if="(!userHasVoted && !respuestaSeleccionada) || isEditingVote" class="respuesta" @click="seleccionarRespuesta(allOptions[0].id)">
+        {{ allOptions[0].title }}
+      </div>
+      <div v-if="(!userHasVoted && !respuestaSeleccionada) || isEditingVote" class="respuesta" @click="seleccionarRespuesta(allOptions[1].id)">
+        {{ allOptions[1].title }}
+      </div>
+      
+      <!-- Resultados Binary -->
+      <div v-if="(respuestaSeleccionada || userHasVoted) && !isEditingVote" class="resultados">
+        <div v-for="(option, index) in allOptions" :key="option.id" 
+             class="resultado-item" 
+             :class="{'voted-option': respuestaSeleccionada === option.id}">
+          <div class="respuesta-label">
+            {{ option.title }}
+            <i v-if="respuestaSeleccionada === option.id" class="fas fa-check-circle" style="color: #4ADE80; margin-left: 5px;"></i>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" :style="{ width: getOptionPercentage(option) + '%' }"></div>
+            <span class="progress-text">{{ getOptionPercentage(option) }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIPO: SCALE (Escala 1-5) -->
+    <div v-else-if="questionType === 'scale'" class="scale-container">
+      <div v-if="(!userHasVoted && !respuestaSeleccionada) || isEditingVote" class="scale-buttons">
+        <button 
+          v-for="option in allOptions" 
+          :key="option.id"
+          @click="seleccionarRespuesta(option.id)"
+          class="scale-button"
+        >
+          {{ option.title }}
+        </button>
+      </div>
+      
+      <!-- Resultados Scale -->
+      <div v-if="(respuestaSeleccionada || userHasVoted) && !isEditingVote" class="scale-results">
+        <div class="scale-result-item" v-for="option in allOptions" :key="option.id">
+          <div class="scale-label" :class="{'selected-scale': respuestaSeleccionada === option.id}">
+            {{ option.title }}
+            <i v-if="respuestaSeleccionada === option.id" class="fas fa-star"></i>
+          </div>
+          <div class="scale-bar">
+            <div class="scale-fill" :style="{ width: getOptionPercentage(option) + '%' }"></div>
+            <span class="scale-percent">{{ getOptionPercentage(option) }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIPO: DROPDOWN (Lista desplegable) -->
+    <div v-else-if="questionType === 'dropdown'" class="dropdown-container">
+      <select 
+        v-if="(!userHasVoted && !respuestaSeleccionada) || isEditingVote"
+        v-model="selectedDropdownOption"
+        @change="handleDropdownChange"
+        class="dropdown-select"
+      >
+        <option value="">-- Selecciona una opción --</option>
+        <option v-for="option in allOptions" :key="option.id" :value="option.id">
+          {{ option.title }}
+        </option>
+      </select>
+      
+      <!-- Resultados Dropdown -->
+      <div v-if="(respuestaSeleccionada || userHasVoted) && !isEditingVote" class="dropdown-results">
+        <div class="selected-answer">
+          <i class="fas fa-check-circle"></i>
+          Tu respuesta: <strong>{{ getSelectedOptionTitle() }}</strong>
+        </div>
+        <div class="dropdown-result-item" v-for="option in allOptions" :key="option.id">
+          <div class="option-info">
+            <span class="option-title" :class="{'voted-option-text': respuestaSeleccionada === option.id}">
+              {{ option.title }}
+            </span>
+            <span class="option-votes">{{ option.votes }} votos</span>
+          </div>
+          <div class="option-bar">
+            <div class="option-fill" :style="{ width: getOptionPercentage(option) + '%' }"></div>
+            <span class="option-percent">{{ getOptionPercentage(option) }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="votos">{{ totalVotos }} Votos</div>
+    <div v-if="expirationDate" class="countdown">
+      <i class="far fa-clock"></i>
+      <span v-if="!isExpired">{{ timeRemaining }}</span>
+      <span v-else class="expired">Expirada</span>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+import { useStore } from 'vuex';
+import { format, parseISO } from 'date-fns';
+import { getCookie, setCookie } from '@/store/cookies';
+import { useToast } from 'vue-toastification';
+import { v4 as uuidv4 } from 'uuid';
+import axios from '/src/store/axiosInstance.js';
+
+const emit = defineEmits(['respuesta-seleccionada']);
+
+const props = defineProps({
+  questionId: Number,
+  pregunta: String,
+  questionType: {
+    type: String,
+    default: 'binary',
+    validator: (value) => ['binary', 'scale', 'dropdown'].includes(value)
+  },
+  allOptions: {
+    type: Array,
+    default: () => []
+  },
+  // Backwards compatibility
+  respuesta1Id: Number,
+  respuesta2Id: Number,
+  respuesta1: {
+    type: Object,
+    default: () => ({ title: 'Sin respuesta', votes: 0 })
+  },
+  respuesta2: {
+    type: Object,
+    default: () => ({ title: 'Sin respuesta', votes: 0 })
+  },
+  categoria: String,
+  fecha: String,
+  votos: Number,
+  profileId: {
+    type: [String, Number],
+    default: null
+  },
+  allowPrivacy: {
+    type: Boolean,
+    default: false
+  },
+  isPublic: {
+    type: Boolean,
+    default: true
+  },
+  expirationDate: {
+    type: String,
+    default: null
+  },
+  readOnly: {
+    type: Boolean,
+    default: false
+  },
+  forcedVoteId: {
+    type: Number,
+    default: null
+  }
+});
+
+const store = useStore();
+const respuestaSeleccionada = ref(props.forcedVoteId || null);
+const totalVotos = ref(props.votos);
+const isVotePublic = ref(props.isPublic);
+const timeRemaining = ref('');
+const isExpired = ref(false);
+const selectedDropdownOption = ref('');
+const isEditingVote = ref(false);
+
+// Calcular opciones locales (para compatibilidad)
+const optionsMap = ref(new Map());
+
+// Inicializar votos locales de opciones
+const initializeLocalVotes = () => {
+  if (props.allOptions && props.allOptions.length > 0) {
+    props.allOptions.forEach(opt => {
+      optionsMap.value.set(opt.id, { ...opt });
+    });
+  } else {
+    // Backward compatibility
+    if (props.respuesta1) optionsMap.value.set(props.respuesta1Id, { ...props.respuesta1 });
+    if (props.respuesta2) optionsMap.value.set(props.respuesta2Id, { ...props.respuesta2 });
+  }
+};
+
+initializeLocalVotes();
+
+watch(() => props.isPublic, (val) => isVotePublic.value = val);
+
+const preguntaData = computed(() => store.state.preguntas.find(p => p.id === props.questionId));
+const preguntaText = computed(() => props.pregunta || (preguntaData.value ? preguntaData.value.title : ''));
+const toast = useToast();
+
+const COOKIE_NAME = "user_token";
+if (!getCookie(COOKIE_NAME)) {
+  const token = uuidv4();
+  setCookie(COOKIE_NAME, token, 30);
+}
+const userToken = getCookie(COOKIE_NAME);
+
+function hasUserVoted(questionId) {
+  if (store.getters.isAuthenticated) {
+    const userVotes = store.state.preguntas.filter(p => p.user_has_voted);
+    return userVotes.some(vote => vote.id === questionId);
+  } else {
+    return !!getCookie(`${COOKIE_NAME}_vote_${questionId}`);
+  }
+}
+
+const userHasVoted = computed(() => {
+    if (props.forcedVoteId) return true;
+    return hasUserVoted(props.questionId);
+});
+
+watch(() => props.forcedVoteId, (val) => {
+    if (val) respuestaSeleccionada.value = val;
+});
+
+const canEditVote = computed(() => {
+    return userHasVoted.value && store.getters.isAuthenticated;
+});
+
+const getOptionPercentage = (option) => {
+  const total = Array.from(optionsMap.value.values()).reduce((sum, opt) => sum + opt.votes, 0);
+  return total > 0 ? Math.round((option.votes / total) * 100) : 0;
+};
+
+const getSelectedOptionTitle = () => {
+  const option = optionsMap.value.get(respuestaSeleccionada.value);
+  return option ? option.title : 'Opción no encontrada';
+};
+
+const seleccionarRespuesta = async (respuestaId) => {
+  if (props.readOnly) return;
+  if ((respuestaSeleccionada.value || userHasVoted.value) && !isEditingVote.value) return;
+
+  respuestaSeleccionada.value = respuestaId;
+
+  const isAnonymous = !store.getters.isAuthenticated;
+  const profileId = isAnonymous ? 0 : Number(props.profileId);
+  const payload = {
+    question_id: props.questionId,
+    option_id: respuestaId,
+    is_anonymous: isAnonymous,
+    user_token: isAnonymous ? userToken : null,
+    profile_id: profileId
+  };
+
+  if (!payload.question_id || !payload.option_id) {
+    console.error('Error: question_id or option_id is undefined.');
+    respuestaSeleccionada.value = null;
+    return;
+  }
+
+  try {
+    // Actualización optimista
+    const option = optionsMap.value.get(respuestaId);
+    if (option) {
+      option.votes++;
+    }
+    totalVotos.value++;
+
+    await store.dispatch('voteForOption', payload);
+
+    if (isAnonymous) {
+      setCookie(`${COOKIE_NAME}_vote_${props.questionId}`, true, 30);
+    }
+
+    toast.success('¡Votación exitosa!');
+    isEditingVote.value = false;
+    
+    emit('respuesta-seleccionada', respuestaId);
+  } catch (error) {
+    // Revertir cambios
+    const option = optionsMap.value.get(respuestaId);
+    if (option) {
+      option.votes--;
+    }
+    totalVotos.value--;
+    
+    respuestaSeleccionada.value = null;
+    console.error('Error al votar:', error);
+    toast.error('Error al votar. Por favor, intenta de nuevo.');
+  }
+};
+
+const handleDropdownChange = () => {
+  if (selectedDropdownOption.value) {
+    seleccionarRespuesta(selectedDropdownOption.value);
+  }
+};
+
+const toggleVisibility = async () => {
+    try {
+        const response = await axios.post('answers/toggle-privacy/', { question_id: props.questionId });
+        isVotePublic.value = response.data.is_public;
+        toast.info(isVotePublic.value ? "Voto visible" : "Voto privado");
+    } catch (e) {
+        console.error(e);
+        toast.error("Error al cambiar privacidad");
+    }
+};
+
+const enableVoteEditing = () => {
+    isEditingVote.value = true;
+    respuestaSeleccionada.value = null;
+    selectedDropdownOption.value = '';
+};
+
+const iconosPorCategoria = {
+  salud: 'fa fa-medkit',
+  deporte: 'fa fa-futbol',
+  tecnologia: 'fa fa-laptop',
+  entretenimiento: 'fa fa-film',
+  politica: 'fa fa-balance-scale',
+  sociedad: 'fa fa-users',
+  mundial: 'fa fa-plane',
+  educacion: 'fa fa-graduation-cap',
+  masVotadas: 'fa fa-star',
+  masNuevo: 'fa fa-clock',
+};
+
+const calcularIcono = (categoria) => iconosPorCategoria[categoria];
+
+const calcularURL = (categoria) => {
+  switch (categoria) {
+    case 'deporte': return '/deporte';
+    case 'politica': return '/politica';
+    case 'sociedad': return '/sociedad';
+    case 'tecnologia': return '/tecnologia';
+    case 'entretenimiento': return '/entretenimiento';
+    case 'mundial': return '/mundial';
+    case 'educacion': return '/educacion';
+    case 'salud': return '/salud';
+    default: return '#';
+  }
+};
+
+const formatFecha = (fecha) => {
+  if (!fecha) return 'Fecha no disponible';
+  try {
+    const date = parseISO(fecha);
+    return format(date, "dd-MM-yyyy");
+  } catch (error) {
+    console.error('Error formateando la fecha:', error);
+    return 'Fecha no válida';
+  }
+};
+
+const updateCountdown = () => {
+  if (!props.expirationDate) return;
+  
+  const now = new Date();
+  const expDate = new Date(props.expirationDate);
+  const timeDiff = expDate - now;
+  
+  if (timeDiff <= 0) {
+    isExpired.value = true;
+    timeRemaining.value = 'Expired';
+    return;
+  }
+  
+  const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+  
+  if (days > 0) {
+    timeRemaining.value = `${days}d ${hours}h`;
+  } else if (hours > 0) {
+    timeRemaining.value = `${hours}h ${minutes}m`;
+  } else if (minutes > 0) {
+    timeRemaining.value = `${minutes}m ${seconds}s`;
+  } else {
+    timeRemaining.value = `${seconds}s`;
+  }
+};
+
+let countdownInterval = null;
+
+onMounted(() => {
+  if (props.expirationDate) {
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+  }
+});
+
+onUnmounted(() => {
+  if (countdownInterval) {
+    clearInterval(countdownInterval);
+  }
+});
+</script>
+
+<style scoped>
+/* Estilos base mantenidos */
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  background: var(--gradient-card);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  margin: 6px;
+  padding: 10px;
+  min-height: auto;
+  height: auto;
+  overflow: visible;
+  position: relative;
+  justify-content: space-between;
+}
+
+.grid-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 10px 10px 0 0;
+}
+
+.grid-container:hover::before {
+  opacity: 1;
+}
+
+.grid-container:hover {
+  transform: translateY(-2px) scale(1.005);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.icono-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--colortext);
+  font-size: 0.85rem;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 8px;
+}
+
+.icono-container a {
+  text-decoration: none;
+}
+
+.icono-container i {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.icono-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.categoria-nombre {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--colortext);
+  letter-spacing: 0.5px;
+}
+
+.pregunta {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--colortext);
+  margin-bottom: 10px;
+  line-height: 1.3;
+  text-align: left;
+  flex-grow: 1;
+}
+
+/* Binary/Original styles */
+.respuestas {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-grow: 0;
+}
+
+.respuesta {
+  background: var(--colorquaternary);
+  color: var(--colortext);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(128, 128, 128, 0.1);
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.respuesta:hover {
+  background: var(--gradient-hover);
+  color: white;
+  transform: translateX(3px);
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.resultados {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.resultado-item {
+  width: 100%;
+}
+
+.respuesta-label {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--colortext);
+  margin-bottom: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.voted-option .respuesta-label {
+    color: #4ADE80;
+    font-weight: 700;
+}
+
+.progress-track {
+  width: 100%;
+  height: 20px;
+  background: var(--colorquaternary);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: 10px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+}
+
+.voted-option .progress-fill {
+    background: linear-gradient(90deg, #34D399, #10B981) !important;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* SCALE styles */
+.scale-container {
+  margin-bottom: 10px;
+}
+
+.scale-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.scale-button {
+  flex: 1;
+  padding: 10px;
+  background: var(--colorquaternary);
+  color: var(--colortext);
+  border: 2px solid var(--glass-border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.scale-button:hover {
+  background: var(--gradient-primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+.scale-results {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.scale-result-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.scale-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--colorsecondary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.selected-scale {
+  color: #4ADE80;
+  font-weight: 700;
+}
+
+.scale-bar {
+  height: 16px;
+  background: var(--colorquaternary);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scale-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: 8px;
+  transition: width 1s ease;
+}
+
+.scale-percent {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.7rem;
+  color: white;
+  font-weight: 700;
+}
+
+/* DROPDOWN styles */
+.dropdown-container {
+  margin-bottom: 10px;
+}
+
+.dropdown-select {
+  width: 100%;
+  padding: 12px;
+  background: var(--colorquaternary);
+  color: var(--colortext);
+  border: 2px solid var(--glass-border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dropdown-select:focus {
+  outline: none;
+  border-color: var(--colorprimary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.dropdown-select option {
+  background: var(--colorbase);
+  color: var(--colortext);
+}
+
+.dropdown-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.selected-answer {
+  background: rgba(74, 222, 128, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  border-left: 3px solid #4ADE80;
+  color: var(--colortext);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.selected-answer i {
+  color: #4ADE80;
+}
+
+.dropdown-result-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.option-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.option-title {
+  font-size: 0.85rem;
+  color: var(--colortext);
+  font-weight: 500;
+}
+
+.voted-option-text {
+  color: #4ADE80;
+  font-weight: 700;
+}
+
+.option-votes {
+  font-size: 0.75rem;
+  color: var(--colorsecondary);
+}
+
+.option-bar {
+  height: 12px;
+  background: var(--colorquaternary);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.option-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: 6px;
+  transition: width 1s ease;
+}
+
+.option-percent {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.65rem;
+  color: white;
+  font-weight: 700;
+}
+
+/* Common styles */
+.votos {
+  text-align: right;
+  font-size: 0.7rem;
+  color: var(--colorsecondary);
+  margin-top: 6px;
+  padding-top: 6px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  white-space: nowrap;
+}
+
+.votos::before {
+  content: '\f080';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+.countdown {
+  font-size: 0.75rem;
+  color: var(--colorsecondary);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.countdown i {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 0.85rem;
+}
+
+.countdown .expired {
+  color: #EF4444;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.edit-icon {
+  margin-left: 6px;
+  font-size: 0.8rem;
+}
+
+.privacy-icon {
+    margin-right: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: #9CA3AF;
+    transition: color 0.3s;
+}
+
+.privacy-icon:hover {
+    color: var(--colorprimary);
+}
+
+.privacy-icon.fa-eye-slash {
+    color: #EF4444;
+}
+
+.fecha {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+}
+</style>

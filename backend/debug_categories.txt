@@ -1,0 +1,10 @@
+Found 9 categories:
+ID: 101, Name: 'Internacional'
+ID: 103, Name: 'PERSONAL'
+ID: 96, Name: 'deporte'
+ID: 102, Name: 'educacion'
+ID: 98, Name: 'entretenimiento'
+ID: 99, Name: 'politica'
+ID: 95, Name: 'salud'
+ID: 100, Name: 'sociedad'
+ID: 97, Name: 'tecnologia'

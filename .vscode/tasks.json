@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Django Server",
+            "type": "shell",
+            "command": "python manage.py makemigrations; python manage.py migrate; python manage.py runserver",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/backend"
+            }
+        },
+        {
+            "label": "Run Vue Dev Server",
+            "type": "shell",
+            "command": "npm run dev",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/web-app"
+            }
+        },
+        {
+            "label": "Run All",
+            "dependsOn": [
+                "Run Django Server",
+                "Run Vue Dev Server"
+            ]
+        }
+    ]
+}

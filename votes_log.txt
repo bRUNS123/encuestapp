@@ -1,0 +1,10 @@
+--- Vote Inspection ---
+Total Profiles: 4
+User: alonso.f3@gmail.com (ID: 18) - Votes: 0
+User: amigo.test@example.com (ID: 21) - Votes: 0
+User: bfrancosentis@gmail.com (ID: 19) - Votes: 8
+User: nn2504405@gmail.com (ID: 20) - Votes: 0
+------------------------------
+Anonymous Votes: 0
+------------------------------
+Registered Votes (is_anonymous=False) but profile is NULL: 0

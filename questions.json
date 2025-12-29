@@ -1,0 +1,1109 @@
+{
+    "PERSONAL": [
+        {
+            "title": "¿Estado Civil?",
+            "options": [
+                "Soltero/a",
+                "Casado/a",
+                "Divorciado/a",
+                "Viudo/a",
+                "Union Civil",
+                "Prefiero no decir"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Fecha de Nacimiento",
+            "description": "Selecciona tu fecha de nacimiento completa",
+            "options": [],
+            "question_type": "date"
+        },
+        {
+            "title": "¿Cuántos hijos tienes?",
+            "options": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5 o más"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Color de Ojos",
+            "options": [
+                "Café",
+                "Negro",
+                "Azul",
+                "Verde",
+                "Miel/Ambar",
+                "Gris",
+                "Otro"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Estatura (cm)",
+            "options": [
+                "Menos de 150 cm",
+                "150 - 160 cm",
+                "161 - 170 cm",
+                "171 - 180 cm",
+                "181 - 190 cm",
+                "Más de 190 cm"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Peso (kg)",
+            "options": [
+                "10",
+                "600",
+                "1"
+            ],
+            "question_type": "slider"
+        },
+        {
+            "title": "Tipo de Sangre",
+            "options": [
+                "A+",
+                "A-",
+                "B+",
+                "B-",
+                "AB+",
+                "AB-",
+                "O+",
+                "O-",
+                "No lo sé"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Estado Laboral",
+            "options": [
+                "Trabajo dependiente",
+                "Trabajo independiente",
+                "Cesante / Buscando trabajo",
+                "Estudiante",
+                "Jubilado/a",
+                "Dueño/a de casa",
+                "Otro"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Etnia",
+            "options": [
+                "Hispano / Latino",
+                "Blanco / Europeo",
+                "Indígena / Originario",
+                "Afrodescendiente",
+                "Asiático",
+                "Mestizo",
+                "Otro",
+                "Prefiero no decir"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "¿Fumas tabaco?",
+            "options": [
+                "Nunca",
+                "Ocasionalmente",
+                "A diario",
+                "Prefiero no decir"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "¿Con qué frecuencia consumes alcohol?",
+            "options": [
+                "Nunca",
+                "Rara vez",
+                "1–2 veces al mes",
+                "1–2 veces a la semana",
+                "Casi todos los días",
+                "Prefiero no decir"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Estatura (cm)",
+            "options": [
+                "50",
+                "300",
+                "1"
+            ],
+            "question_type": "slider"
+        }
+    ],
+    "salud": [
+        {
+            "title": "En que sistema de salud estas afiliado actualmente?",
+            "options": [
+                "FONASA tramo A",
+                "FONASA tramo B",
+                "FONASA tramo C",
+                "FONASA tramo D",
+                "ISAPRE",
+                "Capredena / Dipreca",
+                "Otro sistema",
+                "No tengo prevision de salud"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Como evaluas tu acceso a atencion de salud?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Tienes un medico de cabecera o centro de salud habitual donde te atiendes?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Te realizaste algun chequeo medico general en el ultimo ano?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Actualmente fumas cigarrillos o vapeas de forma regular?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Con que frecuencia consumes bebidas alcoholicas en una semana tipica?",
+            "options": [
+                "No tomo alcohol",
+                "1 vez por semana o menos",
+                "2 a 3 veces por semana",
+                "4 o mas veces por semana"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Como evaluas tu calidad de sueno?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Cuantas veces a la semana realizas actividad fisica moderada o intensa de al menos 30 minutos?",
+            "options": [
+                "0 veces a la semana",
+                "1 o 2 veces a la semana",
+                "3 o 4 veces a la semana",
+                "5 o mas veces a la semana"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "En los ultimos 12 meses, has consultado a un profesional de salud mental (psicologo o psiquiatra)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Con que frecuencia vas al dentista?",
+            "options": [
+                "Al menos una vez al ano",
+                "Cada 2 o 3 anos",
+                "Solo cuando tengo dolor o problema",
+                "Casi nunca o nunca"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Como describirias tu salud en general?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Tienes alguna enfermedad cronica diagnosticada (por ejemplo hipertension, diabetes, asma)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Te vacunas segun el calendario de vacunas recomendado en Chile (por ejemplo influenza, covid, etc.)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        }
+    ],
+    "deporte": [
+        {
+            "title": "Realizas algun deporte o actividad fisica al menos una vez por semana?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Donde practicas deporte con mayor frecuencia?",
+            "options": [
+                "En plazas o parques publicos",
+                "En gimnasio privado o municipal",
+                "En club deportivo",
+                "En la casa",
+                "Casi no practico deporte"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Que tipo de deporte practicas o te interesa mas?",
+            "options": [
+                "Futbol o baby futbol",
+                "Running, trote o trail",
+                "Gimnasio, pesas o crossfit",
+                "Deportes de equipo (basquetbol, voleibol, etc.)",
+                "Deportes individuales (natacion, ciclismo, etc.)",
+                "No practico deporte"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Perteneces actualmente a algun club, equipo o escuela deportiva?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Como evaluas tu nivel de actividad fisica?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Sigues regularmente el futbol chileno (Primera Division, Primera B, Copa Chile)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Has participado alguna vez en corridas masivas o maratones en Chile?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Con que frecuencia ves deporte por television o streaming?",
+            "options": [
+                "Varias veces a la semana",
+                "Una vez a la semana",
+                "Algunas veces al mes",
+                "Casi nunca o nunca"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Como evaluas la infraestructura deportiva de tu comuna (canchas, multicanchas, gimnasios)?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Utilizas aplicaciones o dispositivos para registrar tu actividad fisica (reloj inteligente, app de running, etc.)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Cuanto dirias que gastas al mes en deporte (gimnasio, ropa, implementos, cuotas, etc.)?",
+            "options": [
+                "Casi nada",
+                "Hasta $10.000",
+                "Entre $10.001 y $30.000",
+                "Mas de $30.000"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Has participado en programas deportivos municipales o del IND?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        }
+    ],
+    "tecnologia": [
+        {
+            "title": "Tienes acceso a internet fijo en tu hogar?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Que tipo de conexion a internet tienes principalmente en tu casa?",
+            "options": [
+                "Fibra optica",
+                "Cable o ADSL",
+                "Solo internet movil (datos)",
+                "No tengo internet en la casa"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Tienes smartphone (telefono inteligente)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Que sistema operativo usas principalmente en tu smartphone?",
+            "options": [
+                "Android",
+                "iOS",
+                "Otro",
+                "No tengo smartphone"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Utilizas aplicaciones de bancos o billeteras digitales chilenas (Mach, Tenpo, Chek, etc.)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Con que frecuencia compras productos o servicios por internet?",
+            "options": [
+                "Varias veces al mes",
+                "Una vez al mes",
+                "Algunas veces al ano",
+                "Casi nunca o nunca"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Como evaluas tu nivel de manejo de tecnologia?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "En el ultimo ano, has trabajado o estudiado de manera remota (teletrabajo o clases online)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Has sufrido o crees haber sufrido algun intento de estafa o fraude digital (phishing, enlaces falsos, etc.)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Cual es tu principal fuente de noticias de actualidad?",
+            "options": [
+                "Portales de noticias chilenos",
+                "Redes sociales",
+                "Television o radio",
+                "Conversaciones con otras personas",
+                "Casi no sigo noticias"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Usas redes sociales de forma activa (publicar, comentar, compartir contenido)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Cuanto te preocupa tu privacidad y seguridad de datos en internet?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        }
+    ],
+    "entretenimiento": [
+        {
+            "title": "Tienes al menos una plataforma de streaming de video contratada en tu hogar (Netflix, Disney+, Amazon, etc.)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Cuantas plataformas de streaming de video utilizan regularmente en tu hogar?",
+            "options": [
+                "Ninguna",
+                "1 plataforma",
+                "2 plataformas",
+                "3 o mas plataformas"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Has ido al cine en los ultimos 3 meses?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Con que frecuencia asistes a eventos en vivo (conciertos, teatro, stand up, etc.)?",
+            "options": [
+                "Varias veces al ano",
+                "Una o dos veces al ano",
+                "Muy rara vez",
+                "Nunca"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Como evaluas la oferta cultural y de entretencion en tu comuna?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Juegas videojuegos (consola, PC o celular) al menos una vez a la semana?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Cuando sales con amigos o familia, que tipo de panorama prefieres?",
+            "options": [
+                "Ir a comer o tomar algo",
+                "Ir al cine o teatro",
+                "Panoramas al aire libre",
+                "Reunirse en casa",
+                "Casi no salgo"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Participas en juegos de mesa o cartas con amigos o familia?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Has asistido a actividades culturales gratuitas organizadas por tu municipio o centros culturales en el ultimo ano?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Cuanto dirias que gastas al mes en entretencion (cine, salidas, conciertos, juegos, etc.)?",
+            "options": [
+                "Menos de $10.000",
+                "Entre $10.000 y $30.000",
+                "Entre $30.001 y $60.000",
+                "Mas de $60.000"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Que tan importante es la entretencion en tu vida diaria?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Sueles seguir programas o series chilenas de forma regular?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        }
+    ],
+    "politica": [
+        {
+            "title": "Con que frecuencia sigues noticias de politica chilena?",
+            "options": [
+                "Todos los dias",
+                "Varias veces a la semana",
+                "De vez en cuando",
+                "Casi nunca o nunca"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Cual es tu interes por la politica?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Votaste en la ultima eleccion nacional (presidencial, parlamentaria o plebiscito)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Con cual de estas posiciones politicas te sientes mas cercano?",
+            "options": [
+                "Izquierda",
+                "Centroizquierda",
+                "Centro",
+                "Centroderecha",
+                "Derecha",
+                "Ninguna o no lo tengo claro"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Cuanta confianza tienes en las instituciones politicas chilenas (Gobierno, Congreso, partidos)?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Has participado alguna vez en marchas, cabildos u otras instancias ciudadanas en Chile?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Cual es tu principal fuente de informacion sobre politica?",
+            "options": [
+                "Television o radio",
+                "Medios digitales o diarios",
+                "Redes sociales",
+                "Conversaciones con otras personas",
+                "No me informo mucho de politica"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Sueles conversar de politica con tu familia o amigos?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Sientes que tu opinion es escuchada por las autoridades?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Has sido miembro de algun partido politico u organizacion social con fines politicos?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Cuando decides tu voto, que factor pesa mas para ti?",
+            "options": [
+                "Las propuestas programaticas",
+                "La trayectoria de la persona",
+                "La opinion de familia o amigos",
+                "Lo que veo en redes y medios",
+                "No suelo votar"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Consideras que conoces bien tus derechos y deberes como ciudadano en Chile?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Como evaluas el funcionamiento de la democracia en Chile?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        }
+    ],
+    "sociedad": [
+        {
+            "title": "Como te mueves principalmente dentro de tu ciudad?",
+            "options": [
+                "Transporte publico (RED, metro, micro)",
+                "Auto o moto propia",
+                "Aplicaciones (Uber, Didi, Cabify, etc.)",
+                "Bicicleta o scooter",
+                "Caminando"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Como percibes la seguridad en tu barrio?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Has sido victima de algun delito en los ultimos 12 meses en Chile?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Conoces a tus vecinos mas cercanos por su nombre?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Participas en alguna organizacion social o comunitaria (junta de vecinos, agrupaciones, etc.)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Con que frecuencia sales con amigos o familia por ocio?",
+            "options": [
+                "Varias veces a la semana",
+                "Una vez a la semana",
+                "Algunas veces al mes",
+                "Rara vez"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Que tan conforme estas con las areas verdes y espacios publicos de tu comuna?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Vives con algun nino, nina o adolescente menor de 18 anos en tu hogar?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Cuantas personas adultas (18 anos o mas) viven contigo en tu hogar?",
+            "options": [
+                "Ninguna, vivo solo/a",
+                "1 adulto mas",
+                "2 o 3 adultos mas",
+                "4 o mas adultos mas"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Has realizado trabajo voluntario o ayuda comunitaria en los ultimos dos anos?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Utilizas aplicaciones de citas o para conocer gente?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Como percibes el ambiente social en Chile hoy?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Sientes que puedes contar con al menos una persona cercana si tienes un problema importante?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        }
+    ],
+    "mundial": [
+        {
+            "title": "Con que frecuencia sigues noticias internacionales?",
+            "options": [
+                "Todos los dias",
+                "Varias veces a la semana",
+                "De vez en cuando",
+                "Casi nunca o nunca"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Te sientes bien informado sobre el cambio climatico?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Cuanto te preocupa el impacto del cambio climatico en Chile?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Has viajado fuera de Chile alguna vez?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Que tanto te interesan los eventos deportivos internacionales (Mundial de futbol, JJ.OO., Copa America, etc.)?",
+            "options": [
+                "Me interesan mucho, los sigo de cerca",
+                "Los sigo cuando juega Chile",
+                "Solo veo finales o momentos importantes",
+                "Casi no me interesan"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Que idioma extranjero te interesaria aprender o mejorar mas?",
+            "options": [
+                "Ingles",
+                "Portugues",
+                "Frances",
+                "Otro idioma",
+                "No me interesa aprender idiomas"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Cuanto sientes que los acontecimientos internacionales afectan tu vida diaria en Chile?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Has participado en alguna campaña o causa con enfoque global (ambiental, humanitaria, etc.)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Consumes contenido de creadores o medios extranjeros en redes sociales de forma regular?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Que region del mundo te genera mayor interes?",
+            "options": [
+                "America Latina",
+                "Norteamerica",
+                "Europa",
+                "Asia",
+                "Africa",
+                "Oceania"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Como crees que es la imagen de Chile en el extranjero?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Te gustaria vivir un tiempo en otro pais si tuvieras la oportunidad?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        }
+    ],
+    "educacion": [
+        {
+            "title": "Cual es el nivel educacional mas alto que has completado?",
+            "options": [
+                "Educacion basica incompleta",
+                "Educacion basica completa",
+                "Ensenanza media incompleta",
+                "Ensenanza media completa",
+                "Tecnico nivel medio",
+                "Tecnico nivel superior (CFT o IP)",
+                "Profesional universitario (pregrado)",
+                "Postgrado (magister o doctorado)",
+                "Otro"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Actualmente estas estudiando?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Si estudiaste ensenanza media en Chile, donde lo hiciste principalmente?",
+            "options": [
+                "Liceo o colegio municipal",
+                "Colegio particular subvencionado",
+                "Colegio particular pagado",
+                "No estudie ensenanza media en Chile"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Has rendido alguna vez la PSU, PTU o PAES?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Has usado o usas actualmente la Tarjeta Nacional Estudiantil (TNE, pase escolar)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Como financiaste o financias principalmente tus estudios superiores?",
+            "options": [
+                "Con recursos familiares propios",
+                "Gratuidad o becas del Estado",
+                "Creditos (CAE, Fondo Solidario u otros)",
+                "Trabajando mientras estudio",
+                "No he estudiado educacion superior"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Como evaluas la calidad de la educacion que has recibido en Chile?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Has tomado cursos online (por ejemplo Coursera, Udemy u otras plataformas)?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Cuanto aplicas en tu vida diaria lo que aprendiste en el colegio o universidad?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Te gustaria seguir estudiando o especializarte en el futuro?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        },
+        {
+            "title": "Si tienes hijos o menores a cargo, en que tipo de establecimiento estudian principalmente?",
+            "options": [
+                "Municipal",
+                "Particular subvencionado",
+                "Particular pagado",
+                "No tengo hijos o menores a cargo",
+                "No estan escolarizados"
+            ],
+            "question_type": "dropdown"
+        },
+        {
+            "title": "Con que frecuencia lees libros o articulos por interes personal (no por obligacion)?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "question_type": "scale"
+        },
+        {
+            "title": "Participas en capacitaciones, talleres o cursos de perfeccionamiento ofrecidos por tu trabajo, municipio u otras instituciones?",
+            "options": [
+                "Si",
+                "No"
+            ],
+            "question_type": "binary"
+        }
+    ]
+}

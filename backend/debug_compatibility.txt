@@ -1,0 +1,13 @@
+User: bfrancosentis@gmail.com
+Target: 21
+Found 10 details (including test item)
+Item 0: Q='PREGUNTA DE PRUEBA (SI VES ESTO, CONEXION OK)' Opt='OPCION TEST'
+Item 1: Q='Sigues las noticias deportivas?' Opt='Si'
+Item 2: Q='Te sientes generalmente saludable?' Opt='Si'
+Item 3: Q='Te interesa la investigacion academica?' Opt='Si'
+Item 4: Q='Sigues una dieta balanceada?' Opt='Si'
+Item 5: Q='Participas en manifestaciones politicas?' Opt='Si'
+Item 6: Q='Eres miembro de algun club academico?' Opt='Si'
+Item 7: Q='Te importa el activismo politico?' Opt='Si'
+Item 8: Q='Prefieres series o peliculas?' Opt='Series'
+Item 9: Q='Sigues a youtubers o streamers?' Opt='Si'

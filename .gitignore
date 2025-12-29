@@ -1,0 +1,132 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# Build output directories
+dist/
+build/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.egg-info/
+.dist/
+
+# Django stuff:
+*.log
+local_settings.py
+media/
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Sphinx documentation:
+docs/_build/
+!docs/_static/.gitkeep
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# dotenv
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# virtualenv
+.local
+
+# Spyder project settings
+.spyderproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Editor directories and files
+.idea/
+.DS_Store
+
+# Local environment files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Compiled files
+*.out
+*.lock
+*.pyc
+*.pyo
+*.pyd
+*.cache
+*.coverage
+
+# Lint
+eslintcache
+
+# Miscellaneous
+.sass-cache/
+connect.lock
+coverage/
+libpeerconnection.log
+testem.log
+*.tgz
+.parcel-cache
+.parcelrc
+
+# System Files
+Thumbs.db
