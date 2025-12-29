@@ -49,7 +49,12 @@ const router = useRouter();
 const route = useRoute();
 
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
-const isAdmin = computed(() => store.state.user && store.state.user.is_staff);
+const user = computed(() => store.getters.user);
+const isAdmin = computed(() => {
+    const isStaff = user.value && user.value.is_staff;
+    console.log('Navbar isAdmin check:', isStaff, user.value);
+    return isStaff;
+});
 const selectedMenuItem = ref(null);
 
 
