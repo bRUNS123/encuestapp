@@ -51,9 +51,7 @@ const route = useRoute();
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
 const user = computed(() => store.getters.user);
 const isAdmin = computed(() => {
-    const isStaff = user.value && user.value.is_staff;
-    console.log('Navbar isAdmin check:', isStaff, user.value);
-    return isStaff;
+    return user.value && user.value.is_staff;
 });
 const selectedMenuItem = ref(null);
 
