@@ -1138,10 +1138,9 @@ button:hover:not(.active) {
   font-weight: 600;
   color: white;
   line-height: 1.2;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /* max-width: 100%; - Removed to allow full width usage */
+  word-break: break-word; /* Allow breaking for long emails */
+  overflow-wrap: anywhere; /* Ensure long strings like emails break */
 }
 
 .value-row {
