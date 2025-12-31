@@ -6,7 +6,7 @@ import StatisticsView from "@/views/StatisticsView.vue";
 import NewestView from "@/views/NewestView.vue";
 import MostVotedView from "@/views/MostVotedView.vue";
 import CategoriaView from "@/views/CategoryView.vue";
-import SupportView from "@/views/SupportView.vue";
+import SuggestionsView from "@/views/SuggestionsView.vue";
 import CreateQuestionView from "@/views/CreateQuestionView.vue";
 import BestRatedView from "@/views/BestRatedView.vue";
 import ForgotPasswordView from "@/views/ForgotPasswordView.vue";
