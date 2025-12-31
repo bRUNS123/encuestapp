@@ -24,6 +24,7 @@ const error = computed(() => store.getters.error);
 
 
 const loadQuestions = async () => {
+    // Force cache bust - v1.2.2
     console.log("🚀 loadQuestions START. Categoria computed:", categoria.value);
     if (!categoria.value) {
         console.warn("❌ Categoria value is empty/null");
