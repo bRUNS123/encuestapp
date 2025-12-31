@@ -5,13 +5,6 @@ const state = reactive({
   categorias: [
     {
       id: 13,
-      nombre: "PERSONAL",
-      icono: "fas fa-user-circle", // Updated icon to match profile feel
-      enlace: "/personal",
-      isActive: false,
-      auth: true,
-    },
-    {
       id: 1,
       nombre: "MÁS VOTADAS",
       icono: "fas fa-star",
@@ -31,6 +24,14 @@ const state = reactive({
       icono: "fas fa-trophy",
       enlace: "/best-rated",
       isActive: false,
+    },
+    {
+      id: 13,
+      nombre: "PERSONAL",
+      icono: "fas fa-user-circle", // Updated icon to match profile feel
+      enlace: "/personal",
+      isActive: false,
+      auth: true,
     },
     {
       id: 3,
