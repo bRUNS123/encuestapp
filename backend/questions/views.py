@@ -40,6 +40,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         # print(f"DEBUG: User: {self.request.user}, Is Auth: {self.request.user.is_authenticated}")
         queryset = Question.objects.all()
+        print(f"🔍 Initial queryset count: {queryset.count()}")
         
         # Restriction for anonymous users
         # Restriction for anonymous users
@@ -49,9 +50,12 @@ class QuestionViewSet(viewsets.ModelViewSet):
 
         # Case-insensitive category filtering
         category_name = self.request.query_params.get('category__name')
+        print(f"🔍 Category filter requested: {category_name}")
         if category_name:
             queryset = queryset.filter(category__name__iexact=category_name)
+            print(f"🔍 After category filter, count: {queryset.count()}")
             
+        print(f"🔍 Final queryset count: {queryset.count()}")
         return queryset
 
     @action(detail=True, methods=['post'])
