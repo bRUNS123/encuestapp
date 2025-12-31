@@ -85,7 +85,7 @@ const menuItems = [
   { id: 1, nombre: 'ACCEDER', icono: 'user', enlace: '/auth', auth: false },
   { id: 2, nombre: 'PERFIL', icono: 'users', enlace: '/perfil', auth: true },
   { id: 99, nombre: 'ADMIN', icono: 'user-shield', enlace: '/admin', adminOnly: true },
-  { id: 3, nombre: 'SUGERENCIAS', icono: 'lightbulb', enlace: '/sugerencias', auth: false },
+  { id: 3, nombre: 'SUGERENCIAS', icono: 'lightbulb', enlace: '/sugerencias' },
   { id: 4, nombre: 'ESTADÍSTICAS', icono: 'pie-chart', enlace: '/estadisticas' },
   { id: 5, nombre: 'CERRAR SESIÓN', icono: 'sign-out-alt', enlace: '#', auth: true, action: logout },
 ];
