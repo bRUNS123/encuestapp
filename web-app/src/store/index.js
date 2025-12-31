@@ -635,12 +635,17 @@ export default createStore({
 
     async fetchQuestionsByCategory({ commit }, category) {
       try {
+        console.log("🛒 Action fetchQuestionsByCategory called for:", category);
         commit('SET_LOADING', true);
-        const response = await axiosInstance.get(`/questions/?category__name=${category}`);
+        const url = `/questions/?category__name=${category}`;
+        console.log("🔗 Fetching URL:", url);
+        const response = await axiosInstance.get(url);
+        console.log("📥 API Response status:", response.status);
+        console.log("📥 API Response data length:", response.data.results ? response.data.results.length : response.data.length);
         const questions = response.data.results || response.data;
         return questions;
       } catch (error) {
-        console.error("Error fetching questions category:", error);
+        console.error("❌ Error fetching questions category:", error);
         throw error;
       } finally {
         commit('SET_LOADING', false);

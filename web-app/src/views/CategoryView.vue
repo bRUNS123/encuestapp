@@ -22,15 +22,22 @@ const questions = ref([]);
 const loading = ref(false);
 const error = computed(() => store.getters.error);
 
+
 const loadQuestions = async () => {
-    if (!categoria.value) return;
+    console.log("🚀 loadQuestions START. Categoria computed:", categoria.value);
+    if (!categoria.value) {
+        console.warn("❌ Categoria value is empty/null");
+        return;
+    }
     
     questions.value = [];
     loading.value = true;
     
     try {
         // Use server-side filtering action
+        console.log("📞 Dispatching fetchQuestionsByCategory with:", categoria.value);
         const result = await store.dispatch('fetchQuestionsByCategory', categoria.value);
+        console.log("📦 Result from dispatch:", result);
         
         // Reorder for vertical filling (column by column)
         const half = Math.ceil(result.length / 2);
