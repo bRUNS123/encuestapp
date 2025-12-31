@@ -11,6 +11,7 @@ from categories.views import CategoryViewSet
 from comments.views import CommentViewSet
 from proposals.views import ProposedQuestionViewSet
 from profiles.views import ProfileViewSet, PasswordResetViewSet, GoogleLogin, FacebookLogin
+from questions.load_data_view import load_personal_questions_view
 
 router = routers.DefaultRouter()
 router.register(r'profiles', ProfileViewSet)
@@ -31,7 +32,7 @@ urlpatterns = [
     path('api/auth/google/', GoogleLogin.as_view(), name='google_login'),
     path('api/auth/facebook/', FacebookLogin.as_view(), name='facebook_login'),
     path('api/suggestions/', include('suggestions.urls')),
-    path('api/admin/load-personal-questions/', 'questions.load_data_view.load_personal_questions_view', name='load_personal_questions'),
+    path('api/admin/load-personal-questions/', load_personal_questions_view, name='load_personal_questions'),
 ]
 
 # Serve static files manual configuration for debug
