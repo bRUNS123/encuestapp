@@ -11,6 +11,7 @@ import CreateQuestionView from "@/views/CreateQuestionView.vue";
 import BestRatedView from "@/views/BestRatedView.vue";
 import ForgotPasswordView from "@/views/ForgotPasswordView.vue";
 import PublicProfileView from "@/views/PublicProfileView.vue";
+import LogsView from "@/views/LogsView.vue";
 
 import AdminLayout from '@/views/admin/AdminLayout.vue';
 import AdminDashboard from '@/views/admin/AdminDashboard.vue';
@@ -96,6 +97,14 @@ const routes = [
     path: "/crear-encuesta",
     name: "crear-encuesta",
     component: CreateQuestionView,
+    meta: {
+      fullWidth: true,
+    },
+  },
+  {
+    path: "/logs",
+    name: "logs",
+    component: LogsView,
     meta: {
       fullWidth: true,
     },
