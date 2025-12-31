@@ -4,7 +4,6 @@ import { reactive, toRefs } from "vue";
 const state = reactive({
   categorias: [
     {
-      id: 13,
       id: 1,
       nombre: "MÁS VOTADAS",
       icono: "fas fa-star",
@@ -28,7 +27,7 @@ const state = reactive({
     {
       id: 13,
       nombre: "PERSONAL",
-      icono: "fas fa-user-circle", // Updated icon to match profile feel
+      icono: "fas fa-user-circle",
       enlace: "/personal",
       isActive: false,
       auth: true,
