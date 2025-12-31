@@ -31,6 +31,7 @@ urlpatterns = [
     path('api/auth/google/', GoogleLogin.as_view(), name='google_login'),
     path('api/auth/facebook/', FacebookLogin.as_view(), name='facebook_login'),
     path('api/suggestions/', include('suggestions.urls')),
+    path('api/admin/load-personal-questions/', 'questions.load_data_view.load_personal_questions_view', name='load_personal_questions'),
 ]
 
 # Serve static files manual configuration for debug
