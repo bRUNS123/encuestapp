@@ -1,9 +1,6 @@
 <template>
   <div class="navbar-container">
-      <router-link to="/" class="logo">
-        <i class="fas fa-poll-h"></i>
-        <h1>ENCUESTAPP</h1>
-      </router-link>
+    <router-link to="/" class="text">ENCUESTAPP</router-link>
     <div class="icons">
       <!-- Theme Toggle -->
       <div class="menu" @click="toggleDarkMode" style="cursor: pointer; margin-right: 15px;" title="Cambiar Tema">
