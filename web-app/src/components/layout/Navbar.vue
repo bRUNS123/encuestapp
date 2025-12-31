@@ -1,6 +1,9 @@
 <template>
   <div class="navbar-container">
-    <router-link to="/" class="text">ENCUESTAPP</router-link>
+      <router-link to="/" class="logo">
+        <i class="fas fa-poll-h"></i>
+        <h1>ENCUESTAPP <span class="version-tag">v1.2</span></h1>
+      </router-link>
     <div class="icons">
       <!-- Theme Toggle -->
       <div class="menu" @click="toggleDarkMode" style="cursor: pointer; margin-right: 15px;" title="Cambiar Tema">
@@ -156,8 +159,20 @@ const selectMenuItem = (id, enlace, action) => {
   grid-auto-flow: column;
   display: flex;
   font-weight: bold;
-  gap: 15px;
-  cursor: pointer;
+  gap: 12px;
+}
+
+.version-tag {
+  font-size: 0.6em;
+  background: #333;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  vertical-align: middle;
+  opacity: 0.8;
+}
+
+.logo i {cursor: pointer;
 }
 
 .menu {
