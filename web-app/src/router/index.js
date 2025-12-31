@@ -69,9 +69,9 @@ const routes = [
     component: StatisticsView,
   },
   {
-    path: "/apoyo",
-    name: "apoyo",
-    component: SupportView,
+    path: "/sugerencias",
+    name: "sugerencias",
+    component: SuggestionsView,
     meta: {
       fullWidth: true,
     },

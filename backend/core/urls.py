@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/accounts/', include('allauth.urls')),
     path('api/auth/google/', GoogleLogin.as_view(), name='google_login'),
     path('api/auth/facebook/', FacebookLogin.as_view(), name='facebook_login'),
+    path('api/suggestions/', include('suggestions.urls')),
 ]
 
 # Serve static files manual configuration for debug

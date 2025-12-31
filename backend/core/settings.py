@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     'categories',
     'comments',
     'proposals',
+    'suggestions',
 ]
 
 SITE_ID = 1
