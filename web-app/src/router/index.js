@@ -89,9 +89,6 @@ const routes = [
     path: "/auth",
     name: "auth",
     component: AuthView,
-    meta: {
-      fullWidth: true,
-    },
   },
   {
     path: "/crear-encuesta",
