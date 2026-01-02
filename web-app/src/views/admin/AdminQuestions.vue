@@ -121,6 +121,19 @@
                      </select>
                 </div>
 
+                <!-- Options Editing -->
+                <div class="form-group" v-if="editingQuestion.options && editingQuestion.options.length > 0">
+                    <label>Opciones de Respuesta:</label>
+                    <div v-for="(opt, index) in editingQuestion.options" :key="index" class="option-row">
+                        <input 
+                            type="text" 
+                            v-model="opt.title" 
+                            class="admin-input option-input"
+                            :placeholder="'Opción ' + (index + 1)"
+                        />
+                    </div>
+                </div>
+
                 <div class="form-actions">
                     <button @click="closeEditModal" class="btn-cancel">Cancelar</button>
                     <button @click="saveQuestionChanges" class="btn-save">Guardar Cambios</button>
@@ -178,7 +191,6 @@ const fetchQuestions = async (url = 'questions/') => {
 const fetchCategories = async () => {
     try {
         const response = await axios.get('categories/');
-        // Handle pagination if present, though categories usually are few
         if (response.data.results) {
              categories.value = response.data.results;
         } else {
@@ -227,18 +239,13 @@ const closeModal = () => {
 
 const openEditModal = (q) => {
     // Clone to avoid reactive updates before saving
+    // Deep clone options array to avoid binding issues
+    const optionsClone = q.options ? q.options.map(o => ({...o})) : [];
+    
     editingQuestion.value = { 
         ...q,
-        // Ensure category_name acts as the v-model for the category select
-        // Backend serializer usually expects 'category' as title/name string for display
-        // Let's check serializer: it has 'category' field which is CharField.
-        // But the object `q` from list might have 'category_name' or 'category' object depending on serializer.
-        // Looking at backend/questions/serializers.py: category = serializers.CharField().
-        // So `q.category` should be the name string. 
-        // In the table we used `q.category_name` or `q.category`. Let's verify what `q` has.
-        // Serializer says `fields = ['category', ...]` where category is CharField.
-        // So `q.category` is the name string.
-        category_name: q.category 
+        category_name: q.category, // Assuming serializer returns category name here
+        options: optionsClone
     };
     showEditModal.value = true;
     if (categories.value.length === 0) {
@@ -260,19 +267,18 @@ const saveQuestionChanges = async () => {
     try {
         const payload = {
             title: editingQuestion.value.title,
-            category: editingQuestion.value.category_name
+            category: editingQuestion.value.category_name,
+            options: editingQuestion.value.options // Send updated options
         };
         
-        await axios.patch(`questions/${editingQuestion.value.id}/`, payload);
+        const response = await axios.patch(`questions/${editingQuestion.value.id}/`, payload);
+        const updatedQ = response.data;
         
         // Update local list
         const index = questions.value.findIndex(q => q.id === editingQuestion.value.id);
         if (index !== -1) {
-            questions.value[index].title = payload.title;
-            // Also update category field
-            questions.value[index].category = payload.category;
-            // If there's a category_name field used in template:
-            questions.value[index].category_name = payload.category; 
+            // Update all fields from response to ensure consistency
+            questions.value[index] = updatedQ;
         }
 
         Swal.fire({
