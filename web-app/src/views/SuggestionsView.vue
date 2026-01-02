@@ -165,9 +165,8 @@ onMounted(() => {
 
 <style scoped>
 .suggestions-view {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
+    padding: 30px 40px;
+    width: 100%;
     color: white;
 }
 
