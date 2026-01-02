@@ -62,7 +62,7 @@ html, body {
     "leftbar content rightbar"
     "footer footer  footer";
   grid-template-rows: auto 1fr auto; /* Use auto/1fr/auto instead of fixed % */
-  grid-template-columns: 250px 1fr 450px; /* RightBar increased to 450px per user request */
+  grid-template-columns: 250px 1fr 350px; /* RightBar width */
   height: 100vh;
   overflow: hidden;
 }
