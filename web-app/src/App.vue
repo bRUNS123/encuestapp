@@ -68,7 +68,64 @@ html, body {
   }
 }
 
-/* Mobile Responsive */
+
+.content {
+  grid-area: content;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px;
+  background-color: var(--colorbase);
+  overflow: auto;
+}
+
+.content-full-width {
+  grid-area: content;
+  grid-template-columns: 1fr!important;
+  overflow-y: auto!important;
+  display: block;
+}
+
+
+.navbar {
+  grid-area: navbar;
+  background-color: var(--colortertiary);
+}
+
+.leftbar {
+  grid-area: leftbar;
+  background-color: var(--colorbase);
+  overflow-y: auto;
+  height: 100%; /* Ocupar toda la altura disponible */
+  border-right: 1px solid var(--colorsecondary);
+}
+
+.rightbar {
+  grid-area: rightbar;
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow-y: auto;
+  background-color: var(--colorbase);
+
+}
+
+.footer {
+  grid-area: footer;
+  display: grid;
+}
+
+/* Page Transition Styles */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Mobile Responsive - PLACED AT THE END TO OVERRIDE */
 @media (max-width: 1024px) {
   .app {
     display: grid;
@@ -76,7 +133,7 @@ html, body {
       "navbar navbar"
       "leftbar content"
       "footer footer";
-    grid-template-columns: 60px 1fr; /* Slightly wider for touch targets */
+    grid-template-columns: 60px 1fr !important; /* Slightly wider for touch targets */
     grid-template-rows: auto 1fr auto;
     height: 100vh;
     width: 100vw;
@@ -124,66 +181,6 @@ html, body {
     display: none !important; /* Still hide right bar */
     width: 0;
   }
-}
-
-.content {
-  grid-area: content;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  padding: 20px;
-  background-color: var(--colorbase);
-  overflow: auto;
-}
-
-.content-full-width {
-  grid-area: content;
-  grid-template-columns: 1fr!important;
-  overflow-y: auto!important;
-  display: block;
-}
-
-
-.navbar {
-  grid-area: navbar;
-  background-color: var(--colortertiary);
-
-
-}
-
-.leftbar {
-  grid-area: leftbar;
-  background-color: var(--colorbase);
-  overflow-y: auto;
-  height: 100%; /* Ocupar toda la altura disponible */
-  border-right: 1px solid var(--colorsecondary)
-
-  ;
-}
-
-.rightbar {
-  grid-area: rightbar;
-  display: grid;
-  grid-template-columns: 1fr;
-  overflow-y: auto;
-  background-color: var(--colorbase);
-
-}
-
-.footer {
-  grid-area: footer;
-  display: grid;
-}
-
-/* Page Transition Styles */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 }
 
 </style>
