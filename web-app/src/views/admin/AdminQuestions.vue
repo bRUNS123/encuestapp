@@ -450,52 +450,81 @@ onMounted(() => {
 }
 
 /* Edit Modal Styles */
+.modal-overlay {
+    background: rgba(0, 0, 0, 0.85); /* Darker overlay */
+    backdrop-filter: blur(5px);
+}
+
+.edit-modal {
+    background: #111827; /* Solid dark background or very dark grey */
+    background: linear-gradient(135deg, #1f2937, #111827); /* Nice gradient */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
 .modal-header-edit h2 {
     margin-top: 0;
     color: white;
     font-size: 1.5rem;
     margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 15px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
-    color: #ccc;
+    margin-bottom: 10px;
+    color: #9ca3af; /* Light grey text */
     font-weight: 500;
+    font-size: 0.95rem;
 }
 
 .admin-input, .admin-select {
     width: 100%;
-    padding: 12px;
+    padding: 12px 15px;
     background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     color: white;
     font-size: 1rem;
-    box-sizing: border-box; /* Important */
+    box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
 .admin-input:focus, .admin-select:focus {
     outline: none;
-    border-color: var(--colorprimary);
+    border-color: #3b82f6; /* Blue focus */
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
 .admin-select option {
-    background: #1a1a1a;
+    background: #1f2937;
     color: white;
+    padding: 10px;
+}
+
+.option-row {
+    margin-bottom: 12px;
+}
+
+.option-input {
+    border-left: 3px solid #f59e0b; /* Amber accent */
+    background: rgba(245, 158, 11, 0.05); /* Very subtle amber tint */
 }
 
 .form-actions {
     display: flex;
     justify-content: flex-end;
     gap: 15px;
-    margin-top: 30px;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
-
 .btn-save, .btn-cancel {
     padding: 10px 20px;
     border-radius: 8px;
