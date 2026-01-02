@@ -146,7 +146,8 @@ html, body {
     z-index: 1000;
   }
 
-  .content {
+  /* Increased specificity to ensure override */
+  .app .content {
     grid-area: content;
     grid-template-columns: 1fr !important; /* Force SINGLE column */
     width: 100%;
