@@ -22,15 +22,9 @@
         </div>
       </div>
     </div>
-        
     
 
-    <div class="pregunta-header">
-      <div class="pregunta">{{ preguntaTextClean }}</div>
-      <button v-if="!readOnly" @click.stop="openReportModal" class="report-btn" title="Reportar pregunta">
-        <i class="fas fa-flag"></i>
-      </button>
-    </div>
+    <div class="pregunta">{{ preguntaTextClean }}</div>
     
     <!-- TIPO: BINARY (Si/No o 2 opciones) -->
     <div v-if="questionType === 'binary'" class="respuestas">
@@ -208,6 +202,9 @@
          <span class="rating-avg">{{ Number(promedioRating || 0).toFixed(1) }}</span>
          <span class="rating-count">({{ totalRatings }})</span>
        </div>
+       <button v-if="!readOnly" @click.stop="openReportModal" class="report-btn" title="Reportar pregunta">
+         <i class="fas fa-flag"></i>
+       </button>
     </div>
     
     <ConfirmationModal 
@@ -1250,6 +1247,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
+  position: relative;
 }
 
 .selected-answer i {
