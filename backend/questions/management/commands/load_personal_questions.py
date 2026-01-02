@@ -31,10 +31,13 @@ class Command(BaseCommand):
             return
         
         # Create or get PERSONAL category
-        category, created = Category.objects.get_or_create(
-            name='PERSONAL',
-            defaults={'description': personal_section.get('title', 'PERSONAL')}
-        )
+        # Use iexact to find existing category if case matches somewhat
+        category = Category.objects.filter(name__iexact='PERSONAL').first()
+        if not category:
+             category = Category.objects.create(name='PERSONAL', description=personal_section.get('title', 'PERSONAL'))
+             created = True
+        else:
+             created = False
         
         if created:
             self.stdout.write(self.style.SUCCESS(f'✅ Created category: {category.name}'))

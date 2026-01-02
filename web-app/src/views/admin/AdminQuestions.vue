@@ -41,6 +41,14 @@
                 <i class="fas fa-external-link-alt"></i>
               </button>
               
+               <button 
+                @click="openEditModal(q)" 
+                class="btn-action btn-edit"
+                title="Editar encuesta"
+              >
+                <i class="fas fa-edit"></i>
+              </button>
+              
               <button 
                 @click="deleteQuestion(q)" 
                 class="btn-action btn-delete"
@@ -62,6 +70,7 @@
 
     </div>
     
+
     <!-- Modal para ver encuesta -->
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
         <div class="modal-content">
@@ -89,6 +98,37 @@
         </div>
     </div>
 
+    <!-- Modal para EDITAR encuesta -->
+    <div v-if="showEditModal" class="modal-overlay" @click.self="closeEditModal">
+        <div class="modal-content edit-modal">
+            <button class="close-btn" @click="closeEditModal">&times;</button>
+            <div class="modal-header-edit">
+                <h2>Editar Pregunta</h2>
+            </div>
+            <div class="modal-body-form" v-if="editingQuestion">
+                <div class="form-group">
+                    <label>Título:</label>
+                    <input type="text" v-model="editingQuestion.title" class="admin-input" />
+                </div>
+                
+                <div class="form-group">
+                     <label>Categoría:</label>
+                     <select v-model="editingQuestion.category_name" class="admin-select">
+                        <option value="">Seleccionar Categoría</option>
+                        <option v-for="cat in categories" :key="cat.id" :value="cat.name">
+                            {{ cat.name }}
+                        </option>
+                     </select>
+                </div>
+
+                <div class="form-actions">
+                    <button @click="closeEditModal" class="btn-cancel">Cancelar</button>
+                    <button @click="saveQuestionChanges" class="btn-save">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
   </div>
 </template>
 
@@ -101,6 +141,7 @@ import Pregunta from '/src/components/preguntas/Pregunta.vue';
 
 const router = useRouter();
 const questions = ref([]);
+const categories = ref([]); // Store categories for dropdown
 const loading = ref(true);
 const nextUrl = ref(null);
 const prevUrl = ref(null);
@@ -108,6 +149,10 @@ const prevUrl = ref(null);
 // Modal state
 const showModal = ref(false);
 const selectedQuestion = ref(null);
+
+// Edit Modal state
+const showEditModal = ref(false);
+const editingQuestion = ref(null);
 
 const fetchQuestions = async (url = 'questions/') => {
   loading.value = true;
@@ -128,6 +173,20 @@ const fetchQuestions = async (url = 'questions/') => {
   } finally {
     loading.value = false;
   }
+};
+
+const fetchCategories = async () => {
+    try {
+        const response = await axios.get('categories/');
+        // Handle pagination if present, though categories usually are few
+        if (response.data.results) {
+             categories.value = response.data.results;
+        } else {
+             categories.value = response.data;
+        }
+    } catch (error) {
+        console.error("Error fetching categories:", error);
+    }
 };
 
 const deleteQuestion = async (q) => {
@@ -163,6 +222,75 @@ const closeModal = () => {
     showModal.value = false;
     selectedQuestion.value = null;
 };
+
+// --- Edit Logic ---
+
+const openEditModal = (q) => {
+    // Clone to avoid reactive updates before saving
+    editingQuestion.value = { 
+        ...q,
+        // Ensure category_name acts as the v-model for the category select
+        // Backend serializer usually expects 'category' as title/name string for display
+        // Let's check serializer: it has 'category' field which is CharField.
+        // But the object `q` from list might have 'category_name' or 'category' object depending on serializer.
+        // Looking at backend/questions/serializers.py: category = serializers.CharField().
+        // So `q.category` should be the name string. 
+        // In the table we used `q.category_name` or `q.category`. Let's verify what `q` has.
+        // Serializer says `fields = ['category', ...]` where category is CharField.
+        // So `q.category` is the name string.
+        category_name: q.category 
+    };
+    showEditModal.value = true;
+    if (categories.value.length === 0) {
+        fetchCategories();
+    }
+};
+
+const closeEditModal = () => {
+    showEditModal.value = false;
+    editingQuestion.value = null;
+};
+
+const saveQuestionChanges = async () => {
+    if (!editingQuestion.value || !editingQuestion.value.title) {
+        Swal.fire('Error', 'El título es obligatorio', 'error');
+        return;
+    }
+
+    try {
+        const payload = {
+            title: editingQuestion.value.title,
+            category: editingQuestion.value.category_name
+        };
+        
+        await axios.patch(`questions/${editingQuestion.value.id}/`, payload);
+        
+        // Update local list
+        const index = questions.value.findIndex(q => q.id === editingQuestion.value.id);
+        if (index !== -1) {
+            questions.value[index].title = payload.title;
+            // Also update category field
+            questions.value[index].category = payload.category;
+            // If there's a category_name field used in template:
+            questions.value[index].category_name = payload.category; 
+        }
+
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: 'Pregunta actualizada',
+            showConfirmButton: false,
+            timer: 2000
+        });
+        closeEditModal();
+
+    } catch (error) {
+        console.error(error);
+        Swal.fire('Error', 'No se pudieron guardar los cambios', 'error');
+    }
+};
+
 
 const truncate = (str) => {
     if (!str) return '';
@@ -308,11 +436,83 @@ onMounted(() => {
     border: none;
     color: white;
     font-size: 1.5rem;
-    cursor: pointer;
     z-index: 10;
 }
 
 .modal-body {
     margin-top: 10px;
 }
+
+/* Edit Modal Styles */
+.modal-header-edit h2 {
+    margin-top: 0;
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ccc;
+    font-weight: 500;
+}
+
+.admin-input, .admin-select {
+    width: 100%;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    box-sizing: border-box; /* Important */
+}
+
+.admin-input:focus, .admin-select:focus {
+    outline: none;
+    border-color: var(--colorprimary);
+}
+
+.admin-select option {
+    background: #1a1a1a;
+    color: white;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-save, .btn-cancel {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.btn-save {
+    background: var(--colorprimary);
+    color: white; /* Contrast? Primary might be yellow/gold */
+    /* Check var --colorprimary definition, assuming it might be bright. 
+       If it is yellow (#FBBF24), use black text. If blue/purple, white. 
+       Let's stick to white or adjust if needed. */
+     color: #111; /* Assuming primary is bright yellow/gold from context */
+}
+
+.btn-cancel {
+    background: transparent;
+    color: #aaa;
+    border: 1px solid #555;
+}
+
+.btn-edit { background-color: #f59e0b; } /* Amber/Orange for edit */
 </style>
