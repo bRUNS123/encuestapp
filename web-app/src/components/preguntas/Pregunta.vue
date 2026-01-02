@@ -130,6 +130,21 @@
        </div>
     </div>
 
+    <!-- TIPO: DATE (Fecha/Calendario) -->
+    <div v-else-if="questionType === 'date'" class="date-container">
+       <div v-if="(!userHasVoted && !respuestaSeleccionada) || isEditingVote" class="date-input-wrapper">
+           <input type="date" v-model="dateAnswerValue" class="date-input" @change="validateDate">
+           <button @click="enviarFecha" class="btn-enviar" :disabled="!dateAnswerValue">
+               <i class="fas fa-paper-plane"></i>
+           </button>
+       </div>
+       <div v-else class="date-result">
+           <div class="selected-answer">
+             <i class="fas fa-check-circle"></i> Tu respuesta: <strong>{{ formatDate(currentTextAnswerDisplay) }}</strong>
+           </div>
+       </div>
+    </div>
+
     <!-- TIPO: SLIDER (Rango) -->
     <div v-else-if="questionType === 'slider'" class="slider-container">
        <div v-if="(!userHasVoted && !respuestaSeleccionada) || isEditingVote" class="slider-wrapper">
@@ -306,6 +321,7 @@ const selectedDropdownOption = ref('');
 const isEditingVote = ref(false);
 const showDeleteModal = ref(false);
 const textAnswerValue = ref('');
+const dateAnswerValue = ref('');
 
 // ... (other refs)
 
@@ -409,6 +425,52 @@ const enviarTexto = async () => {
   } catch (error) {
     console.error('Error al responder:', error);
     toast.error('Error al responder.');
+  }
+};
+
+const enviarFecha = async () => {
+  if (!dateAnswerValue.value) return;
+  if (!store.getters.isAuthenticated) {
+      toast.warning("Debes iniciar sesión para responder");
+      return; 
+  }
+  
+  const payload = {
+    question_id: props.questionId,
+    option_id: null,
+    text_answer: dateAnswerValue.value,
+    is_anonymous: false,
+    user_token: null,
+    profile_id: Number(props.profileId) || 0
+  };
+
+  try {
+    await store.dispatch('voteForOption', payload);
+    toast.success('¡Fecha registrada!');
+    isEditingVote.value = false;
+  } catch (error) {
+    console.error('Error al responder:', error);
+    toast.error('Error al responder.');
+  }
+};
+
+const validateDate = () => {
+  // Optional: Add date validation (e.g., no future dates for birth date)
+  const selectedDate = new Date(dateAnswerValue.value);
+  const today = new Date();
+  if (selectedDate > today) {
+    toast.warning("La fecha no puede ser futura");
+    dateAnswerValue.value = '';
+  }
+};
+
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  try {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' });
+  } catch {
+    return dateString;
   }
 };
 
@@ -1473,6 +1535,44 @@ onUnmounted(() => {
 
 .report-btn i {
   pointer-events: none;
+}
+
+/* DATE styles */
+.date-container {
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.date-input-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.date-input {
+  flex: 1;
+  background: var(--colorquaternary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--colortext);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: var(--colorprimary);
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1);
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.date-result {
+  padding: 10px 0;
 }
 
 /* SLIDER styles */

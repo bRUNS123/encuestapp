@@ -57,7 +57,6 @@ class Command(BaseCommand):
             
             # Map unsupported types to supported ones
             type_mapping = {
-                'date': 'open',  # Date inputs will be treated as open text
                 'time': 'open',
                 'datetime': 'open',
             }

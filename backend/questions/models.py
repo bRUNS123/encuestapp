@@ -9,6 +9,7 @@ class Question(models.Model):
         ('dropdown', 'Lista desplegable'),
         ('open', 'Abierta (Texto)'),
         ('slider', 'Deslizador (Rango)'),
+        ('date', 'Fecha (Calendario)'),
     ]
     
     title = models.CharField(max_length=500)
