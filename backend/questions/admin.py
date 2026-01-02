@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Question, QuestionOption, QuestionRating
+from django.db import models as django_models
+from .models import Question, QuestionOption, QuestionRating, QuestionReport
 
 
 class QuestionOptionInline(admin.TabularInline):
@@ -24,9 +25,21 @@ class QuestionRatingInline(admin.TabularInline):
         return False
 
 
+
+
+class QuestionReportInline(admin.TabularInline):
+    model = QuestionReport
+    extra = 0
+    can_delete = True
+    fields = ('reporter', 'reason', 'description', 'created_at', 'reviewed')
+    readonly_fields = ('reporter', 'created_at')
+    verbose_name = "Reporte"
+    verbose_name_plural = "Reportes"
+
+
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'question_type', 'cantidad_votos', 'rating_average', 'owner', 'creation_date')
+    list_display = ('title', 'category', 'question_type', 'cantidad_votos', 'rating_average', 'owner', 'creation_date', 'report_count')
     list_filter = ('question_type', 'category', 'creation_date')
     search_fields = ('title', 'category__name', 'owner__email')
     readonly_fields = ('creation_date', 'cantidad_votos', 'rating_average', 'rating_count')
@@ -45,27 +58,28 @@ class QuestionAdmin(admin.ModelAdmin):
         }),
     )
     
-    inlines = [QuestionOptionInline, QuestionRatingInline]
+    inlines = [QuestionOptionInline, QuestionRatingInline, QuestionReportInline]
     
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.select_related('category', 'owner')
+        return qs.select_related('category', 'owner').annotate(
+            reports_count=django_models.Count('reports')
+        )
+    
+    def report_count(self, obj):
+        return obj.reports_count if hasattr(obj, 'reports_count') else obj.reports.count()
+    report_count.short_description = 'Reportes'
+    report_count.admin_order_field = 'reports_count'
 
 
-@admin.register(QuestionOption)
-class QuestionOptionAdmin(admin.ModelAdmin):
-    list_display = ('title', 'question', 'votes')
-    list_filter = ('question__category',)
-    search_fields = ('title', 'question__title')
-    readonly_fields = ('votes',)
-
-
-@admin.register(QuestionRating)
-class QuestionRatingAdmin(admin.ModelAdmin):
-    list_display = ('question', 'user', 'score', 'created_at')
-    list_filter = ('score', 'created_at')
-    search_fields = ('question__title', 'user__email')
+@admin.register(QuestionReport)
+class QuestionReportAdmin(admin.ModelAdmin):
+    list_display = ('question', 'reporter', 'reason', 'created_at', 'reviewed')
+    list_filter = ('reason', 'reviewed', 'created_at')
+    search_fields = ('question__title', 'reporter__email', 'description')
     readonly_fields = ('created_at',)
+    list_editable = ('reviewed',)
     
     def has_add_permission(self, request):
         return False
+

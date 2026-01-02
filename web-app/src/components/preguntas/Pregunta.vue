@@ -22,9 +22,15 @@
         </div>
       </div>
     </div>
+        
     
 
-    <div class="pregunta">{{ preguntaTextClean }}</div>
+    <div class="pregunta-header">
+      <div class="pregunta">{{ preguntaTextClean }}</div>
+      <button v-if="!readOnly" @click.stop="openReportModal" class="report-btn" title="Reportar pregunta">
+        <i class="fas fa-flag"></i>
+      </button>
+    </div>
     
     <!-- TIPO: BINARY (Si/No o 2 opciones) -->
     <div v-if="questionType === 'binary'" class="respuestas">

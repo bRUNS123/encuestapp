@@ -46,3 +46,27 @@ class QuestionOption(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class QuestionReport(models.Model):
+    REPORT_REASONS = [
+        ('spam', 'Spam o contenido irrelevante'),
+        ('offensive', 'Contenido ofensivo o inapropiado'),
+        ('misleading', 'Información engañosa'),
+        ('duplicate', 'Pregunta duplicada'),
+        ('other', 'Otro'),
+    ]
+    
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='reports')
+    reporter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    reason = models.CharField(max_length=20, choices=REPORT_REASONS)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    reviewed = models.BooleanField(default=False)
+    
+    class Meta:
+        unique_together = ('question', 'reporter')
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"Report on '{self.question.title}' by {self.reporter or 'Anonymous'}"

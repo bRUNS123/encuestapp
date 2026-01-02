@@ -2,8 +2,8 @@ from rest_framework import viewsets, filters, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import QuestionSerializer, QuestionOptionSerializer
-from .models import Question, QuestionOption, QuestionRating
+from .serializers import QuestionSerializer, QuestionOptionSerializer, QuestionReportSerializer
+from .models import Question, QuestionOption, QuestionRating, QuestionReport
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from answers.models import Answer
@@ -207,6 +207,39 @@ class QuestionViewSet(viewsets.ModelViewSet):
             "rating_count": question.rating_count,
             "user_rating": score
         })
+
+    @action(detail=True, methods=['post'])
+    def report(self, request, pk=None):
+        """
+        Report a question as inappropriate
+        """
+        question = self.get_object()
+        reason = request.data.get('reason', 'other')
+        description = request.data.get('description', '')
+        
+        # Check if user already reported this question
+        if request.user and request.user.is_authenticated:
+            reporter = request.user
+            if QuestionReport.objects.filter(question=question, reporter=reporter).exists():
+                return Response(
+                    {"error": "Ya has reportado esta pregunta anteriormente"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        else:
+            reporter = None  # Allow anonymous reports
+        
+        report = QuestionReport.objects.create(
+            question=question,
+            reporter=reporter,
+            reason=reason,
+            description=description
+        )
+        
+        return Response({
+            "status": "success",
+            "message": "Reporte enviado correctamente",
+            "report_id": report.id
+        }, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['get'])
     def statistics(self, request):

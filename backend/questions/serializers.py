@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Question, QuestionOption
+from .models import Question, QuestionOption, QuestionReport
 from answers.models import Answer
 from categories.models import Category
 from datetime import datetime
@@ -117,3 +117,14 @@ class QuestionSerializer(serializers.ModelSerializer):
                 QuestionOption.objects.create(question=instance, **option_data)
         
         return instance
+
+
+class QuestionReportSerializer(serializers.ModelSerializer):
+    reporter_email = serializers.EmailField(source='reporter.email', read_only=True)
+    question_title = serializers.CharField(source='question.title', read_only=True)
+    
+    class Meta:
+        model = QuestionReport
+        fields = ['id', 'question', 'reporter', 'reporter_email', 'question_title', 'reason', 'description', 'created_at', 'reviewed']
+        read_only_fields = ['id', 'created_at', 'reporter']
+
