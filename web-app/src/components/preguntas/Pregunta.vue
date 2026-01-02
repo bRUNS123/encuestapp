@@ -202,10 +202,12 @@
          <span class="rating-avg">{{ Number(promedioRating || 0).toFixed(1) }}</span>
          <span class="rating-count">({{ totalRatings }})</span>
        </div>
-       <button v-if="!readOnly" @click.stop="openReportModal" class="report-btn" title="Reportar pregunta">
-         <i class="fas fa-flag"></i>
-       </button>
     </div>
+    
+    <!-- Report Button - Bottom Right Corner -->
+    <button v-if="!readOnly" @click.stop="openReportModal" class="report-btn" title="Reportar pregunta">
+      <i class="fas fa-flag"></i>
+    </button>
     
     <ConfirmationModal 
       v-if="showDeleteModal" 
@@ -1445,6 +1447,32 @@ onUnmounted(() => {
 
 .cancel-icon:hover {
     color: white;
+}
+
+/* Report Button */
+.report-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  padding: 6px 8px;
+  font-size: 0.85em;
+  transition: all 0.3s ease;
+  z-index: 5;
+  border-radius: 4px;
+}
+
+.report-btn:hover {
+  color: #EF4444;
+  background: rgba(239, 68, 68, 0.1);
+  transform: scale(1.1);
+}
+
+.report-btn i {
+  pointer-events: none;
 }
 
 /* SLIDER styles */
