@@ -56,26 +56,17 @@ const routes = [
   {
     path: "/perfil",
     name: "perfil",
-    meta: {
-      fullWidth: true,
-    },
     component: ProfileView,
   },
   {
     path: "/estadisticas",
     name: "statistics",
-    meta: {
-      fullWidth: true,
-    },
     component: StatisticsView,
   },
   {
     path: "/sugerencias",
     name: "sugerencias",
     component: SuggestionsView,
-    meta: {
-      fullWidth: true,
-    },
   },
   {
     path: "/forgot-password",
