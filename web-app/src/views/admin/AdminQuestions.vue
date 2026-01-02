@@ -24,7 +24,7 @@
             <td>#{{ q.id }}</td>
             <td class="title-cell" :title="q.title">{{ truncate(q.title) }}</td>
             <td>
-                <span class="badge-cat">{{ q.category_name || 'Sin Categoría' }}</span>
+                <span class="badge-cat">{{ q.category || 'Sin Categoría' }}</span>
             </td>
              <td>
               <span v-if="q.owner">{{ q.owner_nickname || 'Usuario #' + q.owner }}</span>
@@ -70,7 +70,6 @@
 
     </div>
     
-
     <!-- Modal para ver encuesta -->
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
         <div class="modal-content">
@@ -113,7 +112,7 @@
                 
                 <div class="form-group">
                      <label>Categoría:</label>
-                     <select v-model="editingQuestion.category_name" class="admin-select">
+                     <select v-model="editingQuestion.category" class="admin-select">
                         <option value="">Seleccionar Categoría</option>
                         <option v-for="cat in categories" :key="cat.id" :value="cat.name">
                             {{ cat.name }}
@@ -244,7 +243,8 @@ const openEditModal = (q) => {
     
     editingQuestion.value = { 
         ...q,
-        category_name: q.category, // Assuming serializer returns category name here
+        // Using 'category' field directly as it comes from serializer (name string)
+        category: q.category, 
         options: optionsClone
     };
     showEditModal.value = true;
@@ -267,7 +267,7 @@ const saveQuestionChanges = async () => {
     try {
         const payload = {
             title: editingQuestion.value.title,
-            category: editingQuestion.value.category_name,
+            category: editingQuestion.value.category,
             options: editingQuestion.value.options // Send updated options
         };
         
