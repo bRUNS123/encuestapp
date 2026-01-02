@@ -145,9 +145,10 @@ onMounted(() => {
 }
 
 .table-container {
-  background-color: var(--colorsecondary);
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .users-table {

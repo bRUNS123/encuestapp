@@ -117,13 +117,14 @@ onMounted(() => {
 }
 
 .stat-card {
-  background-color: var(--colorsecondary);
+  background-color: rgba(255, 255, 255, 0.05);
   padding: 20px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   gap: 20px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .stat-icon {
@@ -161,9 +162,10 @@ onMounted(() => {
 }
 
 .chart-container {
-  background-color: var(--colorsecondary);
+  background-color: rgba(255, 255, 255, 0.05);
   padding: 20px;
   border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .chart-container h2 {
