@@ -59,7 +59,7 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
 # Application definition
 
 INSTALLED_APPS = [
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -255,6 +255,7 @@ else:
     # Development static files configuration
     STATICFILES_DIRS = [
         BASE_DIR.parent / 'web-app/dist/assets',
+        BASE_DIR / 'core/static',  # For custom admin CSS
     ]
 
 # Default primary key field type

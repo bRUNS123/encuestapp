@@ -143,7 +143,7 @@
                 @blur="validateSliderValue"
                 @keyup.enter="validateSliderValue"
             >
-            <span class="unit">kg</span>
+            <span class="unit">{{ unitLabel }}</span>
          </div>
          <input 
             type="range" 
@@ -155,8 +155,8 @@
             list="tickmarks"
          >
          <div class="slider-labels">
-            <span>{{ sliderMin }}kg</span>
-            <span>{{ sliderMax }}kg</span>
+            <span>{{ sliderMin }}{{ unitLabel }}</span>
+            <span>{{ sliderMax }}{{ unitLabel }}</span>
          </div>
          <button 
            class="votar-btn" 

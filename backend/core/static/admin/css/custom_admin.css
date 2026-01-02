@@ -1,0 +1,95 @@
+/* Custom admin styles for better contrast and visibility */
+
+/* Main background - darker for better contrast */
+body {
+    background-color: #1a1a1a !important;
+}
+
+/* Changelist table - better row backgrounds */
+#changelist table tbody tr {
+    background-color: #2d2d2d !important;
+}
+
+#changelist table tbody tr:nth-child(even) {
+    background-color: #252525 !important;
+}
+
+#changelist table tbody tr:hover {
+    background-color: #3a3a3a !important;
+}
+
+/* Text color - white for better visibility */
+#changelist table tbody td,
+#changelist table thead th,
+.field-title,
+.field-category,
+.field-owner {
+    color: #ffffff !important;
+}
+
+/* Links - brighter blue */
+#changelist table tbody td a {
+    color: #60A5FA !important;
+}
+
+#changelist table tbody td a:hover {
+    color: #93C5FD !important;
+}
+
+/* "Sin Categoría" badge - better contrast */
+#changelist table tbody td .badge {
+    background-color: #3B82F6 !important;
+    color: #ffffff !important;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+/* Table headers */
+#changelist table thead th {
+    background-color: #1f1f1f !important;
+    border-bottom: 2px solid #3B82F6 !important;
+}
+
+/* Action buttons */
+.button, input[type="submit"], input[type="button"], .submit-row input {
+    background-color: #3B82F6 !important;
+    color: white !important;
+}
+
+.button:hover, input[type="submit"]:hover, input[type="button"]:hover {
+    background-color: #2563EB !important;
+}
+
+/* Delete button */
+.deletelink, .deletelink-box a {
+    background-color: #EF4444 !important;
+    color: white !important;
+}
+
+.deletelink:hover, .deletelink-box a:hover {
+    background-color: #DC2626 !important;
+}
+
+/* Sidebar */
+#content-related {
+    background-color: #2d2d2d !important;
+}
+
+/* Forms */
+.form-row label {
+    color: #e5e5e5 !important;
+}
+
+/* Breadcrumbs */
+div.breadcrumbs {
+    background-color: #3B82F6 !important;
+    color: white !important;
+}
+
+div.breadcrumbs a {
+    color: #ffffff !important;
+}
+
+div.breadcrumbs a:hover {
+    color: #e5e5e5 !important;
+}
