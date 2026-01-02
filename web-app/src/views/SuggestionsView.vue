@@ -168,6 +168,7 @@ onMounted(() => {
     padding: 30px 40px;
     width: 100%;
     color: white;
+    grid-column: 1 / -1; /* Span across all columns in parent grid */
 }
 
 .header-section {
