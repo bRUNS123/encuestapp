@@ -42,11 +42,12 @@ class QuestionViewSet(viewsets.ModelViewSet):
         queryset = Question.objects.all()
         print(f"🔍 Initial queryset count: {queryset.count()}")
         
-        # Restriction for anonymous users
-        # Restriction for anonymous users
-        # if self.request.user.is_anonymous:
+        
+        # Restriction for anonymous users - exclude PERSONAL questions
+        if self.request.user.is_anonymous:
             # Case insensitive exclusion ensuring consistency
-            # queryset = queryset.exclude(category__name__iexact='PERSONAL')
+            queryset = queryset.exclude(category__name__iexact='PERSONAL')
+
 
         # Case-insensitive category filtering
         category_name = self.request.query_params.get('category__name')
