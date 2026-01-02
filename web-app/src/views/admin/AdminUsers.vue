@@ -142,6 +142,14 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  border-bottom: 2px solid var(--colortertiary);
+  padding-bottom: 10px;
+}
+
+.header h1 {
+    color: white;
+    font-size: 1.8rem;
+    margin: 0;
 }
 
 .table-container {

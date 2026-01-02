@@ -59,7 +59,36 @@
         <button :disabled="!nextUrl" @click="fetchQuestions(nextUrl)" class="btn-page">Siguiente</button>
       </div>
 
+
     </div>
+    
+    <!-- Modal para ver encuesta -->
+    <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
+        <div class="modal-content">
+            <button class="close-btn" @click="closeModal">&times;</button>
+            <div class="modal-body">
+                <Pregunta 
+                    v-if="selectedQuestion"
+                    :key="selectedQuestion.id"
+                    :questionId="selectedQuestion.id"
+                    :pregunta="selectedQuestion.title"
+                    :questionType="selectedQuestion.question_type || 'binary'"
+                    :allOptions="selectedQuestion.options || []"
+                    :respuesta1="selectedQuestion.options[0] || { title: 'Sin respuesta', votes: 0 }"
+                    :respuesta2="selectedQuestion.options[1] || { title: 'Sin respuesta', votes: 0 }"
+                    :respuesta1Id="selectedQuestion.options[0] ? selectedQuestion.options[0].id : null"
+                    :respuesta2Id="selectedQuestion.options[1] ? selectedQuestion.options[1].id : null"
+                    :categoria="selectedQuestion.category"
+                    :fecha="selectedQuestion.creation_date"
+                    :expirationDate="selectedQuestion.expiration_date"
+                    :votos="selectedQuestion.cantidad_votos"
+                    :profileId="0" 
+                    :isPublic="true"
+                />
+            </div>
+        </div>
+    </div>
+
   </div>
 </template>
 
@@ -68,12 +97,17 @@ import { ref, onMounted } from 'vue';
 import axios from '@/store/axiosInstance';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
+import Pregunta from '/src/components/preguntas/Pregunta.vue';
 
 const router = useRouter();
 const questions = ref([]);
 const loading = ref(true);
 const nextUrl = ref(null);
 const prevUrl = ref(null);
+
+// Modal state
+const showModal = ref(false);
+const selectedQuestion = ref(null);
 
 const fetchQuestions = async (url = 'questions/') => {
   loading.value = true;
@@ -121,12 +155,13 @@ const deleteQuestion = async (q) => {
 };
 
 const openQuestion = (q) => {
-    // Navigate to public view? Assuming filtering by category or ID usually. 
-    // Since we don't have a direct /question/:id route (it seems categories are used), 
-    // we might just ignore details for now or link to home.
-    // Actually, let's just show an alert or preview?
-    // User requested "professional", so maybe modal? 
-    // For now, let's leave it as is.
+    selectedQuestion.value = q;
+    showModal.value = true;
+};
+
+const closeModal = () => {
+    showModal.value = false;
+    selectedQuestion.value = null;
 };
 
 const truncate = (str) => {
@@ -147,6 +182,14 @@ onMounted(() => {
 <style scoped>
 .header {
   margin-bottom: 20px;
+  border-bottom: 2px solid var(--colortertiary);
+  padding-bottom: 10px;
+}
+
+.header h1 {
+    color: white;
+    font-size: 1.8rem;
+    margin: 0;
 }
 
 .table-container {
@@ -231,4 +274,45 @@ onMounted(() => {
     cursor: not-allowed;
 }
 
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--colorsecondary);
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.modal-body {
+    margin-top: 10px;
+}
 </style>

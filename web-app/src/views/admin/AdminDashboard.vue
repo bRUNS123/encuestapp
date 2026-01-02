@@ -107,6 +107,9 @@ onMounted(() => {
   margin-bottom: 30px;
   font-size: 2rem;
   font-weight: bold;
+  color: white; /* Ensure visibility */
+  border-bottom: 2px solid var(--colortertiary);
+  padding-bottom: 10px;
 }
 
 .dashboard-grid {
