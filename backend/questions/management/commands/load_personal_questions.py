@@ -55,6 +55,17 @@ class Command(BaseCommand):
             q_type = q_data.get('question_type', 'binary')
             options = q_data.get('options', [])
             
+            # Map unsupported types to supported ones
+            type_mapping = {
+                'date': 'open',  # Date inputs will be treated as open text
+                'time': 'open',
+                'datetime': 'open',
+            }
+            
+            # Apply type mapping if type is unsupported
+            if q_type in type_mapping:
+                q_type = type_mapping[q_type]
+            
             if not q_data.get('question_type'):
                 if len(options) == 0:
                     q_type = 'open'
