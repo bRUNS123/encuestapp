@@ -222,9 +222,27 @@ const selectMenuItem = (id, enlace, action) => {
 }
 
 /* Consolidate extra media queries for cleanness */
-@media (max-width: 344px) {
+@media (max-width: 768px) {
     .icons {
-        font-size: 1.1rem; /* Slightly smaller on very small screens */
+        font-size: 1.1rem;
+        gap: 15px; /* Ensure gap between icons */
+    }
+    
+    /* Hide menu text on mobile */
+    .menu-name, .text {
+        display: none !important;
+    }
+
+    .navbar-container {
+        padding: 0 15px;
+        justify-content: center; /* Center the icon strip */
+    }
+    
+    .icons {
+        display: flex;
+        width: 100%;
+        max-width: 100%;
+        justify-content: space-between; /* Space out icons */
     }
 }
 </style>

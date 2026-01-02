@@ -61,32 +61,14 @@ html, body {
     "navbar navbar navbar"
     "leftbar content rightbar"
     "footer footer  footer";
-  grid-template-rows: auto 1fr auto; /* Use auto/1fr/auto instead of fixed % */
-  grid-template-columns: 250px 1fr 350px; /* RightBar width */
-  height: 100vh;
-  overflow: hidden;
+    grid-template-rows: auto 1fr auto; /* Use auto/1fr/auto instead of fixed % */
+    grid-template-columns: 250px 1fr 350px; /* RightBar width */
+    height: 100vh;
+    overflow: hidden;
+  }
 }
-
-.app.login-layout {
-  grid-template-areas:
-    "navbar"
-    "content"
-    "footer";
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr auto;
-}
-
-
 
 /* Mobile Responsive */
-@media (max-width: 900px) {
-  .app {
-    grid-template-columns: 200px 1fr 0px; /* Hide rightbar first? or stack? */
-    /* Let's keep it simple for now, maybe hide rightbar on tablet? */
-  }
-  .rightbar { display: none; }
-}
-
 @media (max-width: 1024px) {
   .app {
     display: grid;
@@ -94,7 +76,7 @@ html, body {
       "navbar navbar"
       "leftbar content"
       "footer footer";
-    grid-template-columns: 50px 1fr; /* Ultra-compact Icon strip */
+    grid-template-columns: 60px 1fr; /* Slightly wider for touch targets */
     grid-template-rows: auto 1fr auto;
     height: 100vh;
     width: 100vw;
@@ -109,9 +91,13 @@ html, body {
 
   .content {
     grid-area: content;
+    grid-template-columns: 1fr !important; /* Force SINGLE column */
     width: 100%;
     overflow-y: auto;
     padding: 10px;
+    display: flex; /* Or grid 1fr? Flex column usually handles varying heights better if grid feels erratic */
+    flex-direction: column;
+    gap: 15px;
   }
 
   .footer {
@@ -121,7 +107,9 @@ html, body {
 
   .leftbar {
     grid-area: leftbar;
-    display: block !important; /* Show it */
+    display: flex !important;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
     width: 100% !important;
     height: 100% !important;
     position: relative;
@@ -129,6 +117,7 @@ html, body {
     pointer-events: auto;
     border-right: 1px solid rgba(255,255,255,0.1);
     z-index: 90;
+    padding-top: 10px;
   }
 
   .rightbar {
