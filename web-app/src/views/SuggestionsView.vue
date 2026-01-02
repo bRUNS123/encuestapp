@@ -167,8 +167,11 @@ onMounted(() => {
 .suggestions-view {
     padding: 30px 40px;
     width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
     color: white;
     grid-column: 1 / -1; /* Span across all columns in parent grid */
+    box-sizing: border-box;
 }
 
 .header-section {
