@@ -123,12 +123,15 @@ def load_new_questions():
             # Model doesn't have description field, skipping for now.
             
             # Crear la pregunta
+            # PERSONAL questions never expire (infinite duration)
+            exp_date = None if category_name == 'PERSONAL' else datetime.now() + timedelta(days=30)
+            
             question = Question.objects.create(
                 title=q_data['title'],
                 category=category,
                 question_type=q_type,
                 creation_date=datetime.now(),
-                expiration_date=datetime.now() + timedelta(days=30),
+                expiration_date=exp_date,
                 cantidad_votos=0
             )
             

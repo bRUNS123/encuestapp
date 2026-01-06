@@ -84,7 +84,7 @@ class Command(BaseCommand):
                 category=category,
                 question_type=q_type,
                 creation_date=datetime.now(),
-                expiration_date=datetime.now() + timedelta(days=365),  # 1 year expiry
+                expiration_date=None,  # PERSONAL questions never expire
                 cantidad_votos=0
             )
             

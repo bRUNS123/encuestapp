@@ -191,10 +191,11 @@
     </div>
     
     <div class="votos">{{ totalVotos }} Votos</div>
-    <div v-if="expirationDate" class="countdown">
+    <div class="countdown">
       <i class="far fa-clock"></i>
-      <span v-if="!isExpired">{{ timeRemaining }}</span>
-      <span v-else class="expired">Expirada</span>
+      <span v-if="categoria?.toUpperCase() === 'PERSONAL'" class="infinite">∞</span>
+      <span v-else-if="expirationDate && !isExpired">{{ timeRemaining }}</span>
+      <span v-else-if="expirationDate && isExpired" class="expired">Expirada</span>
     </div>
 
 
@@ -921,7 +922,8 @@ const updateCountdown = () => {
 let countdownInterval = null;
 
 onMounted(() => {
-  if (props.expirationDate) {
+  // Don't start countdown for PERSONAL questions (infinite duration)
+  if (props.expirationDate && props.categoria?.toUpperCase() !== 'PERSONAL') {
     updateCountdown();
     countdownInterval = setInterval(updateCountdown, 1000);
   }
@@ -1415,6 +1417,24 @@ onUnmounted(() => {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.countdown .infinite {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #60A5FA;
+  animation: pulse-infinity 2s ease-in-out infinite;
+}
+
+@keyframes pulse-infinity {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
 }
 
 .edit-icon {

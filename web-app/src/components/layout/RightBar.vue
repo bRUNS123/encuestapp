@@ -34,6 +34,7 @@ const store = useStore();
 const toast = useToast();
 
 const profileId = computed(() => store.state.user ? store.state.user.id : null);
+const user = computed(() => store.state.user);
 
 const votedQuestionIds = ref(new Set());
 const pendingReplacements = ref(new Map()); // questionId -> timeoutId
@@ -74,16 +75,38 @@ watch(preguntas, () => {
 const loading = computed(() => store.getters.loading);
 const error = computed(() => store.getters.error);
 
-onMounted(() => {
+const loadQuestions = () => {
+  console.log('🔄 RightBar: Loading questions...');
   toast.info("Cargando preguntas...");
   store.dispatch('fetchRightBarPreguntas').then(() => {
+    console.log('✅ RightBar: Questions loaded successfully');
     toast.clear();
     toast.success("Preguntas cargadas exitosamente");
   }).catch(err => {
+    console.error('❌ RightBar: Error loading questions:', err);
     toast.clear();
     toast.error("Error al cargar preguntas: " + err.message);
   });
+};
+
+onMounted(() => {
+  loadQuestions();
 });
+
+// Watch for user authentication changes
+watch(user, (newUser, oldUser) => {
+  console.log('👤 RightBar: User state changed', { 
+    hadUser: !!oldUser, 
+    hasUser: !!newUser,
+    userId: newUser?.id 
+  });
+  
+  // If user just logged in (went from no user to having a user)
+  if (!oldUser && newUser) {
+    console.log('🔐 RightBar: User just logged in, reloading questions');
+    loadQuestions();
+  }
+}, { immediate: false });
 
 const replaceQuestion = (questionId) => {
   const available = getAvailableQuestions();

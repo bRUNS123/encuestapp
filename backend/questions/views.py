@@ -38,15 +38,21 @@ class QuestionViewSet(viewsets.ModelViewSet):
             serializer.save()
 
     def get_queryset(self):
-        # print(f"DEBUG: User: {self.request.user}, Is Auth: {self.request.user.is_authenticated}")
         queryset = Question.objects.all()
+        print(f"🔍 QuestionViewSet - User: {self.request.user}, Is Auth: {self.request.user.is_authenticated}")
         print(f"🔍 Initial queryset count: {queryset.count()}")
         
         
         # Restriction for anonymous users - exclude PERSONAL questions
         if self.request.user.is_anonymous:
+            before = queryset.count()
             # Case insensitive exclusion ensuring consistency
             queryset = queryset.exclude(category__name__iexact='PERSONAL')
+            after = queryset.count()
+            print(f"🔍 User is ANONYMOUS - Excluded PERSONAL questions: {before} → {after} ({before - after} removed)")
+        else:
+            personal_count = queryset.filter(category__name__iexact='PERSONAL').count()
+            print(f"✅ User is AUTHENTICATED - Including {personal_count} PERSONAL questions")
 
 
         # Case-insensitive category filtering

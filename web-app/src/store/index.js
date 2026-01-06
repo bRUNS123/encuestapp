@@ -164,19 +164,54 @@ export default createStore({
       let url = "/questions/";
       let allPreguntas = [];
       try {
+        console.log('🔍 fetchRightBarPreguntas: Starting fetch...');
+        console.log('🔍 Auth token exists:', !!localStorage.getItem('access_token'));
+        if (localStorage.getItem('access_token')) {
+          console.log('🔍 Auth token preview:', localStorage.getItem('access_token').substring(0, 20) + '...');
+        }
+
         while (url) {
+          console.log('🔍 Fetching URL:', url);
           const response = await axiosInstance.get(url);
           const data = response.data;
+
+          console.log('📦 Response status:', response.status);
+          console.log('📦 Questions received in this batch:', data.results?.length || 0);
+
           if (data && Array.isArray(data.results)) {
+            // Check for PERSONAL questions
+            const personalQuestions = data.results.filter(q =>
+              q.category?.name?.toUpperCase() === 'PERSONAL'
+            );
+            console.log(`📊 PERSONAL questions in this batch: ${personalQuestions.length}`);
+            if (personalQuestions.length > 0) {
+              console.log('📋 PERSONAL questions titles:', personalQuestions.map(q => q.title));
+            }
+
             allPreguntas = allPreguntas.concat(data.results);
             url = data.next;
           } else {
             throw new Error("Datos inválidos");
           }
         }
+
+        const totalPersonal = allPreguntas.filter(q =>
+          q.category?.name?.toUpperCase() === 'PERSONAL'
+        ).length;
+        console.log(`✅ Total questions fetched: ${allPreguntas.length}`);
+        console.log(`✅ Total PERSONAL questions: ${totalPersonal}`);
+        console.log(`📊 Questions by category:`,
+          allPreguntas.reduce((acc, q) => {
+            const cat = q.category?.name || 'Unknown';
+            acc[cat] = (acc[cat] || 0) + 1;
+            return acc;
+          }, {})
+        );
+
         commit("SET_RIGHTBAR_PREGUNTAS", allPreguntas);
       } catch (err) {
-        console.error("Error fetching rightbar questions:", err.message);
+        console.error("❌ Error fetching rightbar questions:", err);
+        console.error("❌ Error details:", err.response?.data || err.message);
       }
     },
 
