@@ -635,6 +635,16 @@ export default createStore({
     async toggleQuestionPrivacy({ commit }, questionId) {
       try {
         const response = await axiosInstance.post('/answers/toggle-privacy/', { question_id: questionId });
+        return response.data;
+      } catch (error) {
+        console.error("Error toggling privacy:", error);
+        throw error;
+      }
+    },
+
+    async toggleQuestionPrivacy({ commit }, questionId) {
+      try {
+        const response = await axiosInstance.post('/answers/toggle-privacy/', { question_id: questionId });
         // Optionally update local state if needed (handled by re-fetch usually)
         return response.data;
       } catch (error) {
