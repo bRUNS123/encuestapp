@@ -203,4 +203,23 @@
 		}
 
 
+/* Compact Footer for All Mobile Devices */
+@media (max-width: 768px) {
+  .footer-container {
+    padding: 0 12px !important;
+  }
+
+  .img-logo {
+    max-height: 4.5vh !important;
+  }
+
+  .text {
+    font-size: 0.7rem !important;
+  }
+
+  .icono {
+    font-size: 1rem !important;
+  }
+}
+
   </style>
