@@ -65,8 +65,8 @@ html, body {
     grid-template-columns: 250px 1fr 350px; /* RightBar width */
     height: 100vh;
     overflow: hidden;
-  }
 }
+
 
 
 .content {
