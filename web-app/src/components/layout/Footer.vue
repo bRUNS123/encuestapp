@@ -205,6 +205,10 @@
 
 /* Compact Footer for All Mobile Devices */
 @media (max-width: 768px) {
+  .footer-container {
+    padding: 18px 15px !important; /* More vertical padding for better height */
+  }
+
   .img-logo {
     max-height: 4.5vh !important;
   }
