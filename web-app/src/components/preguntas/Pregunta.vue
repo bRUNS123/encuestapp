@@ -1742,14 +1742,12 @@ onUnmounted(() => {
 /* Mobile Responsive Styles for Questions */
 @media (max-width: 768px) {
   .grid-container {
-    padding: 10px; /* Even smaller padding for compact look */
+    padding: 10px; /* Internal padding */
     gap: 6px; /* Tighter gaps */
     font-size: 0.85rem;
-    margin-bottom: 18px; /* More space between questions */
-    max-width: 88%; /* Smaller width for more breathing room from leftbar */
-    margin-left: auto; /* Center horizontally */
-    margin-right: auto; /* Center horizontally */
-    width: 88%; /* Force consistent width for all questions */
+    margin: 0 8px 18px 8px; /* Small horizontal margins for breathing room */
+    width: auto; /* Use available space */
+    max-width: none; /* No width restriction */
   }
 
   .pregunta {
