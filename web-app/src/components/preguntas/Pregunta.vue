@@ -1738,4 +1738,94 @@ onUnmounted(() => {
     font-size: 1.3rem;
     margin-left: 5px;
 }
+
+/* Mobile Responsive Styles for Questions */
+@media (max-width: 768px) {
+  .grid-container {
+    padding: 12px;
+    gap: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+  }
+
+  .pregunta {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .respuestas {
+    gap: 8px;
+  }
+
+  .respuesta {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+
+  .icono-container {
+    gap: 6px;
+  }
+
+  .categoria-nombre {
+    font-size: 0.7rem;
+  }
+
+  .fecha {
+    font-size: 0.7rem;
+  }
+
+  .votos {
+    font-size: 0.65rem;
+  }
+
+  .countdown {
+    font-size: 0.7rem;
+  }
+
+  .rating-container {
+    margin-top: 6px;
+  }
+
+  .stars {
+    font-size: 0.95rem;
+    gap: 4px;
+  }
+
+  .rating-info-line {
+    font-size: 0.8rem;
+  }
+
+  .dropdown-select {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+
+  .scale-button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .open-input {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+
+  .btn-enviar {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+
+  .resultado-item, .scale-result-item, .dropdown-result-item {
+    gap: 4px;
+  }
+
+  .respuesta-label, .scale-label, .option-title {
+    font-size: 0.8rem;
+  }
+
+  .progress-text, .scale-percent, .option-percent {
+    font-size: 0.65rem;
+  }
+}
 </style>
