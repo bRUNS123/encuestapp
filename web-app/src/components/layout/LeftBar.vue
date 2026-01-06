@@ -155,38 +155,43 @@ watch(route, () => {
 /* Mobile specific adjustments */
 @media (max-width: 1024px) {
   .categoria-container {
-    flex-direction: column; /* Stack vertically if needed, or just center content */
+    flex-direction: column;
     margin: 0; 
-    padding: 12px 0; /* Tighter vertical padding */
+    padding: 14px 0; /* Slightly more padding for better touch targets */
     border-radius: 0;
-    min-width: unset !important; /* Force unset */
+    min-width: unset !important;
     margin-bottom: 0;
     width: 100%;
-    justify-content: center; /* Center icon */
+    justify-content: center;
+    align-items: center; /* Center horizontally */
+  }
+
+  .contenido-categoria {
+    justify-content: center; /* Center the icon inside */
   }
 
   .icono {
-    font-size: 22px; /* Large readable icon */
-    margin-right: 0; /* Remove gap */
+    font-size: 24px; /* Slightly larger for better visibility */
+    margin-right: 0;
     width: auto;
     margin-bottom: 0;
   }
   
   .nombre {
-    display: none !important; /* Force hide text */
+    display: none !important;
   }
 
-  /* Add active state background for mobile */
+  /* Active state for mobile - remove left border, use background */
   .categoria-container.activo {
-    background: transparent;
-    border-left: 3px solid var(--colorprimary); /* Keep left border indicator */
+    background: rgba(59, 130, 246, 0.15); /* Subtle blue background */
+    border-left: none; /* Remove left border for centered look */
     border-bottom: none;
     box-shadow: none;
   }
   
   .categoria-container.activo .icono {
     color: var(--colorprimary);
-    transform: scale(1.1);
+    transform: scale(1.15); /* Slightly larger scale for emphasis */
   }
 }
 </style>
