@@ -106,6 +106,13 @@ watch(user, (newUser, oldUser) => {
     console.log('🔐 RightBar: User just logged in, reloading questions');
     loadQuestions();
   }
+  
+  // If user just logged out (went from having a user to no user)
+  if (oldUser && !newUser) {
+    console.log('🚪 RightBar: User logged out, clearing questions');
+    store.commit('SET_RIGHTBAR_PREGUNTAS', []);
+    displayedQuestions.value = [];
+  }
 }, { immediate: false });
 
 const replaceQuestion = (questionId) => {
