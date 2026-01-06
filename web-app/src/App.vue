@@ -161,6 +161,7 @@ html, body {
   .footer {
     grid-area: footer;
     width: 100%;
+    z-index: 100; /* Above leftbar to prevent overlap */
   }
 
   .leftbar {
@@ -174,7 +175,7 @@ html, body {
     opacity: 1;
     pointer-events: auto;
     border-right: 1px solid rgba(255,255,255,0.1);
-    z-index: 90;
+    z-index: 90; /* Below footer */
     padding-top: 10px;
   }
 
