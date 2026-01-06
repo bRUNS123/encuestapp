@@ -1746,6 +1746,9 @@ onUnmounted(() => {
     gap: 6px; /* Tighter gaps */
     font-size: 0.85rem;
     margin-bottom: 18px; /* More space between questions */
+    max-width: 95%; /* Don't use full width */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
   }
 
   .pregunta {
