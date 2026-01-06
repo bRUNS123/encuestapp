@@ -1742,14 +1742,14 @@ onUnmounted(() => {
 /* Mobile Responsive Styles for Questions */
 @media (max-width: 768px) {
   .grid-container {
-    padding: 12px;
-    gap: 8px;
+    padding: 10px; /* Even smaller padding for compact look */
+    gap: 6px; /* Tighter gaps */
     font-size: 0.85rem;
-    margin-bottom: 12px;
+    margin-bottom: 18px; /* More space between questions */
   }
 
   .pregunta {
-    font-size: 0.9rem;
+    font-size: 0.88rem; /* Slightly smaller */
     margin-bottom: 10px;
     line-height: 1.3;
   }
