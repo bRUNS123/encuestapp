@@ -1745,7 +1745,7 @@ onUnmounted(() => {
     padding: 10px; /* Internal padding */
     gap: 6px; /* Tighter gaps */
     font-size: 0.85rem;
-    margin: 0 8px 18px 8px; /* Small horizontal margins for breathing room */
+    margin: 0 12px 18px 8px; /* Left: 8px, Right: 12px for more breathing room */
     width: auto; /* Use available space */
     max-width: none; /* No width restriction */
   }
